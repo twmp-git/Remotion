@@ -115,14 +115,14 @@ export const Dawn: React.FC<{ T: Act1Times }> = ({ T }) => {
         ) : null}
         <text
           x={W / 2}
-          y={H / 2 + 70}
+          y={700}
           textAnchor="middle"
           fontFamily="Anton, Impact, sans-serif"
           fontSize={230}
           fill={MAWA.charcoal}
           opacity={multFade}
           style={{ fontVariantNumeric: "tabular-nums", filter: `blur(${(1 - multFade) * 18}px)` }}
-          transform={`translate(${W / 2} ${H / 2}) scale(${1 + t * 0.06}) translate(${-W / 2} ${-H / 2})`}
+          transform={`translate(${W / 2} 620) scale(${1 + t * 0.06}) translate(${-W / 2} -620)`}
         >
           {mult.toFixed(2)}x
         </text>

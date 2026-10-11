@@ -27,7 +27,7 @@ export const LyricsOverlay: React.FC = () => {
         position: "absolute",
         left: 80,
         right: 150,
-        top: 1210,
+        top: 880,
         display: "flex",
         flexWrap: "wrap",
         justifyContent: "center",
