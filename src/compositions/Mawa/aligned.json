@@ -1,0 +1,385 @@
+{
+ "lines": [
+  "Osasokoneza zalelo ndi mawa",
+  "Uzagona pampeni uzafundankhawa",
+  "mwetsera, mvetsera",
+  "ndili ndi mabala otisachila ndili ndiabale oti anapita",
+  "ndege anakwera anapita",
+  "ndege anakwera anapita",
+  "ndili ndi mabala otisachila ndili ndiabale oti anapita",
+  "ma beti anabeta anapita",
+  "ma beti anabeta anapita",
+  "ine ndiye ndililanso",
+  "mawa,mawa mawa",
+  "ndililanso mawa",
+  "mawa,mawa mawa",
+  "ndililanso mawa"
+ ],
+ "words": [
+  {
+   "word": "Osasokoneza",
+   "line": 0,
+   "start": 80.0,
+   "end": 80.48,
+   "conf": 0
+  },
+  {
+   "word": "zalelo",
+   "line": 0,
+   "start": 80.48,
+   "end": 80.96,
+   "conf": 0
+  },
+  {
+   "word": "ndi",
+   "line": 0,
+   "start": 80.96,
+   "end": 81.44,
+   "conf": 0
+  },
+  {
+   "word": "mawa",
+   "line": 0,
+   "start": 81.44,
+   "end": 81.92,
+   "conf": 0
+  },
+  {
+   "word": "Uzagona",
+   "line": 1,
+   "start": 82.4,
+   "end": 83.2,
+   "conf": 0
+  },
+  {
+   "word": "pampeni",
+   "line": 1,
+   "start": 83.2,
+   "end": 84.0,
+   "conf": 0
+  },
+  {
+   "word": "uzafundankhawa",
+   "line": 1,
+   "start": 84.0,
+   "end": 84.8,
+   "conf": 0
+  },
+  {
+   "word": "mwetsera",
+   "line": 2,
+   "start": 85.4,
+   "end": 86.84,
+   "conf": 0
+  },
+  {
+   "word": "mvetsera",
+   "line": 2,
+   "start": 86.84,
+   "end": 88.28,
+   "conf": 0
+  },
+  {
+   "word": "ndili",
+   "line": 3,
+   "start": 89.0,
+   "end": 89.26,
+   "conf": 0
+  },
+  {
+   "word": "ndi",
+   "line": 3,
+   "start": 89.26,
+   "end": 89.52,
+   "conf": 0
+  },
+  {
+   "word": "mabala",
+   "line": 3,
+   "start": 89.52,
+   "end": 89.78,
+   "conf": 0
+  },
+  {
+   "word": "otisachila",
+   "line": 3,
+   "start": 89.78,
+   "end": 90.04,
+   "conf": 0
+  },
+  {
+   "word": "ndili",
+   "line": 3,
+   "start": 90.04,
+   "end": 90.3,
+   "conf": 0
+  },
+  {
+   "word": "ndiabale",
+   "line": 3,
+   "start": 90.3,
+   "end": 90.56,
+   "conf": 0
+  },
+  {
+   "word": "oti",
+   "line": 3,
+   "start": 90.56,
+   "end": 90.82,
+   "conf": 0
+  },
+  {
+   "word": "anapita",
+   "line": 3,
+   "start": 90.82,
+   "end": 91.08,
+   "conf": 0
+  },
+  {
+   "word": "ndege",
+   "line": 4,
+   "start": 91.6,
+   "end": 92.293,
+   "conf": 0
+  },
+  {
+   "word": "anakwera",
+   "line": 4,
+   "start": 92.293,
+   "end": 92.987,
+   "conf": 0
+  },
+  {
+   "word": "anapita",
+   "line": 4,
+   "start": 92.987,
+   "end": 93.68,
+   "conf": 0
+  },
+  {
+   "word": "ndege",
+   "line": 5,
+   "start": 94.2,
+   "end": 94.893,
+   "conf": 0
+  },
+  {
+   "word": "anakwera",
+   "line": 5,
+   "start": 94.893,
+   "end": 95.587,
+   "conf": 0
+  },
+  {
+   "word": "anapita",
+   "line": 5,
+   "start": 95.587,
+   "end": 96.28,
+   "conf": 0
+  },
+  {
+   "word": "ndili",
+   "line": 6,
+   "start": 96.8,
+   "end": 97.06,
+   "conf": 0
+  },
+  {
+   "word": "ndi",
+   "line": 6,
+   "start": 97.06,
+   "end": 97.32,
+   "conf": 0
+  },
+  {
+   "word": "mabala",
+   "line": 6,
+   "start": 97.32,
+   "end": 97.58,
+   "conf": 0
+  },
+  {
+   "word": "otisachila",
+   "line": 6,
+   "start": 97.58,
+   "end": 97.84,
+   "conf": 0
+  },
+  {
+   "word": "ndili",
+   "line": 6,
+   "start": 97.84,
+   "end": 98.1,
+   "conf": 0
+  },
+  {
+   "word": "ndiabale",
+   "line": 6,
+   "start": 98.1,
+   "end": 98.36,
+   "conf": 0
+  },
+  {
+   "word": "oti",
+   "line": 6,
+   "start": 98.36,
+   "end": 98.62,
+   "conf": 0
+  },
+  {
+   "word": "anapita",
+   "line": 6,
+   "start": 98.62,
+   "end": 98.88,
+   "conf": 0
+  },
+  {
+   "word": "ma",
+   "line": 7,
+   "start": 99.4,
+   "end": 99.92,
+   "conf": 0
+  },
+  {
+   "word": "beti",
+   "line": 7,
+   "start": 99.92,
+   "end": 100.44,
+   "conf": 0
+  },
+  {
+   "word": "anabeta",
+   "line": 7,
+   "start": 100.44,
+   "end": 100.96,
+   "conf": 0
+  },
+  {
+   "word": "anapita",
+   "line": 7,
+   "start": 100.96,
+   "end": 101.48,
+   "conf": 0
+  },
+  {
+   "word": "ma",
+   "line": 8,
+   "start": 102.0,
+   "end": 102.52,
+   "conf": 0
+  },
+  {
+   "word": "beti",
+   "line": 8,
+   "start": 102.52,
+   "end": 103.04,
+   "conf": 0
+  },
+  {
+   "word": "anabeta",
+   "line": 8,
+   "start": 103.04,
+   "end": 103.56,
+   "conf": 0
+  },
+  {
+   "word": "anapita",
+   "line": 8,
+   "start": 103.56,
+   "end": 104.08,
+   "conf": 0
+  },
+  {
+   "word": "ine",
+   "line": 9,
+   "start": 104.6,
+   "end": 105.293,
+   "conf": 0
+  },
+  {
+   "word": "ndiye",
+   "line": 9,
+   "start": 105.293,
+   "end": 105.987,
+   "conf": 0
+  },
+  {
+   "word": "ndililanso",
+   "line": 9,
+   "start": 105.987,
+   "end": 106.68,
+   "conf": 0
+  },
+  {
+   "word": "mawa",
+   "line": 10,
+   "start": 107.2,
+   "end": 107.893,
+   "conf": 0
+  },
+  {
+   "word": "mawa",
+   "line": 10,
+   "start": 107.893,
+   "end": 108.587,
+   "conf": 0
+  },
+  {
+   "word": "mawa",
+   "line": 10,
+   "start": 108.587,
+   "end": 109.28,
+   "conf": 0
+  },
+  {
+   "word": "ndililanso",
+   "line": 11,
+   "start": 109.8,
+   "end": 110.84,
+   "conf": 0
+  },
+  {
+   "word": "mawa",
+   "line": 11,
+   "start": 110.84,
+   "end": 111.88,
+   "conf": 0
+  },
+  {
+   "word": "mawa",
+   "line": 12,
+   "start": 112.4,
+   "end": 113.093,
+   "conf": 0
+  },
+  {
+   "word": "mawa",
+   "line": 12,
+   "start": 113.093,
+   "end": 113.787,
+   "conf": 0
+  },
+  {
+   "word": "mawa",
+   "line": 12,
+   "start": 113.787,
+   "end": 114.48,
+   "conf": 0
+  },
+  {
+   "word": "ndililanso",
+   "line": 13,
+   "start": 115.0,
+   "end": 116.04,
+   "conf": 0
+  },
+  {
+   "word": "mawa",
+   "line": 13,
+   "start": 116.04,
+   "end": 117.08,
+   "conf": 0
+  }
+ ],
+ "estimated": true
+}

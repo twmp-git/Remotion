@@ -16,6 +16,8 @@ import {
   TalkingStagesNokia,
   TalkingStagesQwerty,
 } from "./compositions/TalkingStages";
+import { MawaVerse } from "./compositions/Mawa/MawaVerse";
+import { lineStart as mawaLineStart } from "./compositions/Mawa/timing";
 // @new-composition-imports (used by `npm run new` — keep this line)
 
 const showcaseFrames = getShowcaseFrames(VIDEO.fps);
@@ -145,6 +147,26 @@ export const RemotionRoot: React.FC = () => {
           fps={VIDEO.fps}
           durationInFrames={sec(HOOK_SECONDS, VIDEO.fps)}
           defaultProps={{ withAudio: true }}
+        />
+      </Folder>
+
+      {/* "Mawa" verse (song 1:20 →) — vertical 9:16. Test = opening through the ripple transition. */}
+      <Folder name="Mawa">
+        <Composition
+          id="Mawa-Test-Lyrics"
+          component={MawaVerse}
+          {...FORMATS.vertical}
+          fps={VIDEO.fps}
+          durationInFrames={Math.round(mawaLineStart(3) * VIDEO.fps)}
+          defaultProps={{ withLyrics: true, withAudio: true }}
+        />
+        <Composition
+          id="Mawa-Test-Clean"
+          component={MawaVerse}
+          {...FORMATS.vertical}
+          fps={VIDEO.fps}
+          durationInFrames={Math.round(mawaLineStart(3) * VIDEO.fps)}
+          defaultProps={{ withLyrics: false, withAudio: true }}
         />
       </Folder>
 
