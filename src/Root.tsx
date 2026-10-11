@@ -157,7 +157,7 @@ export const RemotionRoot: React.FC = () => {
           component={MawaVerse}
           {...FORMATS.vertical}
           fps={VIDEO.fps}
-          durationInFrames={Math.round(mawaLineStart(3) * VIDEO.fps)}
+          durationInFrames={Math.round((mawaLineStart(3) + 0.6) * VIDEO.fps)}
           defaultProps={{ withLyrics: true, withAudio: true }}
         />
         <Composition
@@ -165,7 +165,7 @@ export const RemotionRoot: React.FC = () => {
           component={MawaVerse}
           {...FORMATS.vertical}
           fps={VIDEO.fps}
-          durationInFrames={Math.round(mawaLineStart(3) * VIDEO.fps)}
+          durationInFrames={Math.round((mawaLineStart(3) + 0.6) * VIDEO.fps)}
           defaultProps={{ withLyrics: false, withAudio: true }}
         />
       </Folder>

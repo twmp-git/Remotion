@@ -19,7 +19,7 @@ export const LyricsOverlay: React.FC = () => {
   if (line < 0) return null;
   const words = WORDS.filter((w) => w.line === line);
   const nextStart = LINE_TIMES[line + 1]?.start ?? Infinity;
-  const exit = interpolate(t, [nextStart - 0.12, nextStart - 0.02], [0, 1], CLAMP);
+  const exit = interpolate(t, [nextStart - 0.22, nextStart - 0.02], [0, 1], { ...CLAMP, easing: Easing.bezier(0.5, 0, 0.75, 0) });
 
   return (
     <div
@@ -35,15 +35,16 @@ export const LyricsOverlay: React.FC = () => {
         columnGap: 22,
         rowGap: 0,
         opacity: 1 - exit,
-        translate: `0 ${exit * -30}px`,
+        translate: `0 ${exit * -40}px`,
+        filter: `blur(${exit * 8}px)`,
       }}
     >
       {words.map((w, i) => {
         const sinceIn = t - w.start;
         if (sinceIn < -0.02) return null;
-        const pop = interpolate(sinceIn, [0, 0.18], [0, 1], { ...CLAMP, easing: Easing.out(Easing.back(2.4)) });
+        const pop = interpolate(sinceIn, [0, 0.28], [0, 1], { ...CLAMP, easing: Easing.bezier(0.16, 1, 0.3, 1) });
         const key = KEY_WORDS.test(w.word.replace(/[^a-z]/gi, ""));
-        const tilt = (random(`mw-${line}-${i}`) - 0.5) * (key ? 8 : 4);
+        const tilt = (random(`mw-${line}-${i}`) - 0.5) * (key ? 5 : 2.5);
         return (
           <span
             key={i}
@@ -57,8 +58,10 @@ export const LyricsOverlay: React.FC = () => {
               paintOrder: "stroke fill",
               textShadow: `0 10px 0 ${MAWA.ink}`,
               display: "inline-block",
-              scale: String(interpolate(pop, [0, 1], [1.9, 1])),
-              opacity: interpolate(pop, [0, 0.3], [0, 1], CLAMP),
+              scale: String(interpolate(pop, [0, 1], [1.35, 1])),
+              opacity: interpolate(pop, [0, 0.4], [0, 1], CLAMP),
+              filter: `blur(${(1 - pop) * 10}px)`,
+              translate: `0 ${(1 - pop) * 24}px`,
               rotate: `${tilt}deg`,
             }}
           >
