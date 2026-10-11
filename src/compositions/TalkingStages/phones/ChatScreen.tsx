@@ -17,6 +17,8 @@ export type ChatTheme = {
   oldBubble: string;
   oldText: string;
   hot: string;
+  /** Accent for hot words inside older bubbles (defaults to `hot`). */
+  oldHot?: string;
   radius: number;
   /** Square-ish pixel UI (for older phones). */
   retro?: boolean;
@@ -39,11 +41,11 @@ export const ChatScreen: React.FC<{
   const showDots = typedChars < 2 && text.length > 0;
   const typed = text.slice(0, typedChars);
 
-  const renderWords = (s: string) =>
+  const renderWords = (s: string, hotColor = theme.hot) =>
     s.split(/(\s+)/).map((part, i) => {
       const hot = HOT_WORDS.has(part.toLowerCase().replace(/[^a-z']/g, ""));
       return hot ? (
-        <span key={i} style={{ color: theme.hot, fontWeight: 800 }}>
+        <span key={i} style={{ color: hotColor, fontWeight: 800 }}>
           {part}
         </span>
       ) : (
@@ -124,7 +126,7 @@ export const ChatScreen: React.FC<{
                 opacity: i === history.length - 1 ? 0.95 : 0.6,
               }}
             >
-              {renderWords(m)}
+              {renderWords(m, theme.oldHot ?? theme.hot)}
             </div>
           ))}
           {text ? (

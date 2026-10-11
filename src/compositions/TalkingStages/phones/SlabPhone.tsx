@@ -19,6 +19,7 @@ const THEMES: Record<"ios" | "android", ChatTheme> = {
     oldBubble: "#E7E7EC",
     oldText: "#111111",
     hot: "#FFE14D",
+    oldHot: "#E0245E",
     radius: 26,
   },
   android: {
@@ -68,7 +69,7 @@ export const makeSlabPhone = (style: "ios" | "android") => {
           text={text}
           typedChars={typedChars}
           sinceCue={sinceCue}
-          history={history.slice(-2)}
+          history={history.slice(-1)}
           theme={THEMES[style]}
         />
         {/* Keyboard hint under the chat (mostly hidden by the hand) */}
