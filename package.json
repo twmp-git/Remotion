@@ -1,0 +1,37 @@
+{
+  "name": "remotion-motion-graphics",
+  "version": "1.0.0",
+  "description": "Programmatic motion graphics with Remotion",
+  "repository": {},
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "@remotion/cli": "4.0.534",
+    "@remotion/fonts": "4.0.534",
+    "@remotion/media": "4.0.534",
+    "@remotion/shapes": "4.0.534",
+    "@remotion/transitions": "4.0.534",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "remotion": "4.0.534",
+    "zod": "4.5.4"
+  },
+  "devDependencies": {
+    "@remotion/eslint-config-flat": "4.0.534",
+    "@types/react": "19.2.7",
+    "@types/web": "0.0.166",
+    "eslint": "9.39.5",
+    "prettier": "3.8.1",
+    "typescript": "5.9.3"
+  },
+  "scripts": {
+    "dev": "remotion studio",
+    "build": "remotion bundle",
+    "render": "remotion render Showcase out/showcase.mp4",
+    "render:all": "remotion render Showcase out/showcase.mp4 && remotion render Showcase-Square out/showcase-square.mp4 && remotion render Showcase-Vertical out/showcase-vertical.mp4",
+    "still": "remotion still Showcase out/showcase.png --frame=60",
+    "new": "node scripts/new-composition.mjs",
+    "lint": "eslint src && tsc",
+    "upgrade": "remotion upgrade"
+  }
+}
