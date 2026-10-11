@@ -19,7 +19,10 @@ export const LyricsOverlay: React.FC = () => {
   if (line < 0) return null;
   const words = WORDS.filter((w) => w.line === line);
   const nextStart = LINE_TIMES[line + 1]?.start ?? Infinity;
-  const exit = interpolate(t, [nextStart - 0.22, nextStart - 0.02], [0, 1], { ...CLAMP, easing: Easing.bezier(0.5, 0, 0.75, 0) });
+  // The last line has no next line: it stays up until the end (no exit).
+  const exit = Number.isFinite(nextStart)
+    ? interpolate(t, [nextStart - 0.22, nextStart - 0.02], [0, 1], { ...CLAMP, easing: Easing.bezier(0.5, 0, 0.75, 0) })
+    : 0;
 
   return (
     <div

@@ -183,3 +183,17 @@ Vertical (1080×1920) lyric videos for the hook of the artist's song (0:18–0:5
 - `phones/*` — phone illustrations (no brand logos), all on a shared 440×1000 footprint so the hand fits: `RetroBarPhone` (green LCD), `QwertyPhone`, `FlipPhone`, `SlabPhone` (`ios` / `android`). `ChatScreen` renders messenger-style bubbles.
 - Compositions live in the `TalkingStages` folder in `Root.tsx`: `TalkingStages-1-Nokia`, `-2-BlackBerry`, `-3-iPhone`, `-4-Flip`, `-5-Android`.
 - Full-quality renders are ~50 MB; make a smaller copy for sharing with `ffmpeg -i in.mp4 -c:v libx264 -crf 26 -c:a copy out.mp4`.
+
+## Project: "Mawa" verse video
+
+The artist's verse on "Mawa" (song 1:20 → 2:10.5), vertical 1080×1920, two versions: `Mawa-Lyrics` and `Mawa-Clean`.
+
+- Style: colours sampled from the cover (`src/compositions/Mawa/theme.ts`), paper grain, flat shapes with soft light.
+- `aligned.json` — word timings (song seconds) from vocal isolation (UVR MDX-Net) + CTC forced alignment of the
+  artist-supplied lyrics. `timing.ts` converts to clip seconds (`VERSE_START = 80`). Nudge times there if needed.
+- `world.tsx` (sky, glowing sun, hills, haze, road, figures, motes, paper sheets) and `scenes/landscape.tsx`
+  (shared landscape with a parallax camera, scars, dissolving figures, paper planes).
+- Scenes: `Act1` (hook inside the sun, day passes, slip drop → ripple → night paper sea → heartbeat rings),
+  `Act2` (golden road, friends dissolve to embers, planes chase the sun), `Act3` (vortex → empty dusk road → whip),
+  `Act4` (fire, embers → paper planes, wall of fire), `Finale` (MAWA letters, hits, cover tableau, push into the sun = loop).
+- Lyrics overlay sits mid-frame (`top: 880`) to stay clear of TikTok's caption/buttons.
