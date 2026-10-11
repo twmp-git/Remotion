@@ -175,9 +175,9 @@ Chromium: `REMOTION_BROWSER_EXECUTABLE=/path/to/chrome npm run render`. Fonts ar
 Vertical (1080×1920) lyric videos for the hook of the artist's song (0:18–0:57 of the track).
 
 - `public/talking-stages/hook.mp3` — the trimmed hook audio.
-- `src/compositions/TalkingStages/lyrics.ts` — lyric lines and their start times (seconds). Edit `ORDER`/timing here if a line is early or late.
 - `beats.json` — beat times detected from the audio (136 BPM); drives the pulses and thumb taps.
 - `variants.ts` — one config per video (background, phone, case colour, hand: skin tone, nails, rings, lyric colours).
 - `illustration/Hand.tsx` — parametric hand (palm, fingers, thumb, nails: almond/coffin/square/short, chrome, glitter, French tips, gems, rings).
-- `phones/*` — phone illustrations (no brand logos). Each takes the current line and renders its own screen.
-- Compositions live in the `TalkingStages` folder in `Root.tsx` (`TalkingStages-1-Nokia`, …).
+- `phones/*` — phone illustrations (no brand logos), all on a shared 440×1000 footprint so the hand fits: `RetroBarPhone` (green LCD), `QwertyPhone`, `FlipPhone`, `SlabPhone` (`ios` / `android`). `ChatScreen` renders messenger-style bubbles.
+- Compositions live in the `TalkingStages` folder in `Root.tsx`: `TalkingStages-1-Nokia`, `-2-BlackBerry`, `-3-iPhone`, `-4-Flip`, `-5-Android`.
+- Full-quality renders are ~50 MB; make a smaller copy for sharing with `ffmpeg -i in.mp4 -c:v libx264 -crf 26 -c:a copy out.mp4`.

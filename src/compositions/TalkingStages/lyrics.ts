@@ -4,8 +4,8 @@ import beatData from "./beats.json";
  * Lyric timing for the hook (song 0:18–0:57, trimmed to public/talking-stages/hook.mp3).
  *
  * Times are in SECONDS from the start of the clip. They were estimated from the
- * song's phrase structure (136 BPM, one line per 2 bars), so nudge `start`
- * values here if a line lands early or late — everything else follows.
+ * song's phrase structure (136 BPM) and the vocal pauses, so nudge the times
+ * in TIMELINE if a line lands early or late — everything else follows.
  */
 export const HOOK_SECONDS = 39;
 
@@ -20,17 +20,33 @@ const LINES = [
 
 // 2 bars at 136 BPM.
 const PHRASE = (8 * 60) / beatData.bpm;
-const FIRST_DOWNBEAT = beatData.beats[0];
+const B0 = beatData.beats[0];
 
-/** Which line plays in each 2-bar phrase. */
-const ORDER = [0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 5];
+/**
+ * [line index, start time in seconds]. Each cue lasts until the next one starts.
+ * First half: one line per 2-bar phrase. Second half (from ~21.7 s): the
+ * "So tell me that you're the one" part, started at each detected vocal phrase.
+ */
+const TIMELINE: [number, number][] = [
+  [0, B0],
+  [1, B0 + PHRASE],
+  [2, B0 + 2 * PHRASE],
+  [3, B0 + 3 * PHRASE],
+  [4, B0 + 4 * PHRASE],
+  [5, B0 + 5 * PHRASE],
+  [5, 21.7],
+  [5, 25.45],
+  [5, 28.0],
+  [5, 31.2],
+  [5, 34.95],
+];
 
 export type Cue = { text: string; start: number; end: number };
 
-export const CUES: Cue[] = ORDER.map((line, i) => ({
+export const CUES: Cue[] = TIMELINE.map(([line, start], i) => ({
   text: LINES[line],
-  start: FIRST_DOWNBEAT + i * PHRASE,
-  end: Math.min(HOOK_SECONDS, FIRST_DOWNBEAT + (i + 1) * PHRASE),
+  start,
+  end: i + 1 < TIMELINE.length ? TIMELINE[i + 1][1] : HOOK_SECONDS,
 }));
 
 export const BEATS: number[] = beatData.beats;

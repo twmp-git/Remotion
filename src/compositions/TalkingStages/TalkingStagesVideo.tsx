@@ -5,13 +5,20 @@ import { CLAMP, SPRINGS, springIn, wave } from "../../utils/animation";
 import "./fonts";
 import { BoilFilter, PaperBackground, SparkleField } from "./illustration/HandDrawn";
 import { HandBack, HandFront } from "./illustration/Hand";
-import { HOOK_SECONDS, HOT_WORDS, beatPulse, getCue } from "./lyrics";
+import { CUES, HOOK_SECONDS, HOT_WORDS, beatPulse, getCue } from "./lyrics";
 import { RETRO_H, RETRO_W, RetroBarPhone } from "./phones/RetroBarPhone";
-import { StickerLyrics } from "./StickerLyrics";
+import { FlipPhone } from "./phones/FlipPhone";
+import { QwertyPhone } from "./phones/QwertyPhone";
+import { makeSlabPhone } from "./phones/SlabPhone";
 import type { Variant } from "./variants";
 
+// All phones share one 440×1000 footprint so the hand fits every model.
 const PHONES = {
   "retro-bar": { Component: RetroBarPhone, W: RETRO_W, H: RETRO_H },
+  qwerty: { Component: QwertyPhone, W: RETRO_W, H: RETRO_H },
+  flip: { Component: FlipPhone, W: RETRO_W, H: RETRO_H },
+  ios: { Component: makeSlabPhone("ios"), W: RETRO_W, H: RETRO_H },
+  android: { Component: makeSlabPhone("android"), W: RETRO_W, H: RETRO_H },
 };
 
 export const TalkingStagesVideo: React.FC<{ variant: Variant; withAudio: boolean }> = ({ variant, withAudio }) => {
@@ -23,7 +30,7 @@ export const TalkingStagesVideo: React.FC<{ variant: Variant; withAudio: boolean
   const { W, H } = phone;
 
   // --- Motion -------------------------------------------------------------
-  const enter = springIn(frame, fps, 0, SPRINGS.smooth);
+  const enter = springIn(frame, fps, 0, SPRINGS.snappy, Math.round(0.5 * fps));
   const pulse = beatPulse(t, 0.22);
   const currentWord = cue ? cue.words[cue.wordIndex]?.toLowerCase().replace(/[^a-z']/g, "") : "";
   const hotHit =
@@ -33,10 +40,10 @@ export const TalkingStagesVideo: React.FC<{ variant: Variant; withAudio: boolean
   const shakeX = Math.sin(frame * 2.7) * 14 * hotHit;
   const shakeR = Math.sin(frame * 3.3) * 2.2 * hotHit;
 
-  const scale = 1.16 + pulse * 0.014;
+  const scale = 1.72 + pulse * 0.02;
   const rot = -11 + wave(frame, 7 * fps, 2) + shakeR;
-  const cx = width / 2 - 30 + shakeX;
-  const cy = height * 0.66 + interpolate(enter, [0, 1], [900, 0]) + wave(frame, 4 * fps, 10);
+  const cx = width / 2 + 20 + shakeX;
+  const cy = height * 0.6 + interpolate(enter, [0, 1], [1400, 0]) + wave(frame, 4 * fps, 12);
 
   // Thumb taps a key while the line is being typed.
   const typing = cue ? cue.typedChars < cue.cue.text.length : false;
@@ -73,13 +80,12 @@ export const TalkingStagesVideo: React.FC<{ variant: Variant; withAudio: boolean
             words={cue?.words ?? []}
             wordIndex={cue?.wordIndex ?? -1}
             cueIndex={cue?.index ?? -1}
+            history={cue ? CUES.slice(Math.max(0, cue.index - 2), cue.index).map((c) => c.text) : []}
           />
           <SparkleField seed={`${variant.id}-phone`} count={6} x={40} y={40} w={W - 80} h={H * 0.5} maxSize={30} color="#FFFFFF" />
           <HandFront hand={variant.hand} W={W} H={H} thumbPress={tapPulse * 10} />
         </g>
       </svg>
-
-      <StickerLyrics textColor={variant.lyrics.text} hotColor={variant.lyrics.hot} shadowColor={variant.lyrics.shadow} top={170} />
 
       <AbsoluteFill style={{ backgroundColor: "white", opacity: flash, pointerEvents: "none" }} />
       <AbsoluteFill style={{ backgroundColor: variant.background, opacity: fadeOut }} />

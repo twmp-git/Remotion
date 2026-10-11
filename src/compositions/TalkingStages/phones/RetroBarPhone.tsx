@@ -3,6 +3,37 @@ import { interpolate, useCurrentFrame } from "remotion";
 import { tsFonts } from "../fonts";
 import { INK } from "../illustration/HandDrawn";
 import type { PhoneProps } from "./types";
+import { HOT_WORDS } from "../lyrics";
+
+/** Typed LCD text; "hot" words flash in inverted pixels once typed. */
+const ScreenText: React.FC<{ text: string; typedChars: number; sinceCue: number; frame: number }> = ({
+  text,
+  typedChars,
+  frame,
+}) => {
+  const typed = text.slice(0, typedChars);
+  const parts = typed.split(/(\s+)/);
+  let pos = 0;
+  return (
+    <>
+      {parts.map((part, i) => {
+        const startPos = pos;
+        pos += part.length;
+        const word = part.toLowerCase().replace(/[^a-z']/g, "");
+        const complete = startPos + part.length < typedChars || typedChars === text.length;
+        const hot = HOT_WORDS.has(word) && complete;
+        const blink = hot && Math.floor(frame / 4) % 2 === 0;
+        return hot ? (
+          <span key={i} style={{ backgroundColor: blink ? "#1F2B0B" : "transparent", color: blink ? "#C9E25A" : "#1F2B0B", padding: "0 4px" }}>
+            {part}
+          </span>
+        ) : (
+          <span key={i}>{part}</span>
+        );
+      })}
+    </>
+  );
+};
 
 export const RETRO_W = 440;
 export const RETRO_H = 1000;
@@ -45,18 +76,25 @@ export const RetroBarPhone: React.FC<PhoneProps> = ({ caseColor, text, typedChar
       <rect x={W - 130} y={208} width={30} height={16} fill="none" stroke="#24320E" strokeWidth={3} />
       <rect x={W - 100} y={212} width={4} height={8} fill="#24320E" />
       <rect x={W - 126} y={212} width={20} height={8} fill="#24320E" />
-      <foreignObject x={90} y={236} width={W - 180} height={176}>
+      {/* New-message envelope blinks at the start of each line */}
+      {sinceCue < 0.9 && Math.floor(frame / 5) % 2 === 0 ? (
+        <g transform="translate(150 206)">
+          <rect x={0} y={0} width={34} height={22} fill="none" stroke="#1F2B0B" strokeWidth={3} />
+          <path d="M0 0 L17 13 L34 0" fill="none" stroke="#1F2B0B" strokeWidth={3} />
+        </g>
+      ) : null}
+      <foreignObject x={88} y={234} width={W - 176} height={178}>
         <div
           style={{
             fontFamily: tsFonts.pixel,
-            fontSize: 36,
-            lineHeight: "32px",
+            fontSize: 44,
+            lineHeight: "37px",
             color: "#1F2B0B",
             textTransform: "lowercase",
             wordBreak: "break-word",
           }}
         >
-          {text.slice(0, typedChars)}
+          <ScreenText text={text} typedChars={typedChars} sinceCue={sinceCue} frame={frame} />
           <span style={{ opacity: cursorOn ? 1 : 0 }}>_</span>
         </div>
       </foreignObject>

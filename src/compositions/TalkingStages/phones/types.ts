@@ -11,6 +11,8 @@ export type PhoneProps = {
   /** Words of the line and how many are revealed (for chat-bubble phones). */
   words: string[];
   wordIndex: number;
+  /** Earlier lines, oldest first (for chat-style screens). */
+  history: string[];
   /** Index of the current line in the song. */
   cueIndex: number;
 };

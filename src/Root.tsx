@@ -8,7 +8,14 @@ import { OutroScene } from "./compositions/Showcase/scenes/OutroScene";
 import { ShapesScene } from "./compositions/Showcase/scenes/ShapesScene";
 import { SpecsScene } from "./compositions/Showcase/scenes/SpecsScene";
 import { getShowcaseFrames, SHOWCASE_TIMING } from "./compositions/Showcase/timing";
-import { HOOK_SECONDS, TalkingStagesNokia } from "./compositions/TalkingStages";
+import {
+  HOOK_SECONDS,
+  TalkingStagesAndroid,
+  TalkingStagesFlip,
+  TalkingStagesIPhone,
+  TalkingStagesNokia,
+  TalkingStagesQwerty,
+} from "./compositions/TalkingStages";
 // @new-composition-imports (used by `npm run new` — keep this line)
 
 const showcaseFrames = getShowcaseFrames(VIDEO.fps);
@@ -102,6 +109,38 @@ export const RemotionRoot: React.FC = () => {
         <Composition
           id="TalkingStages-1-Nokia"
           component={TalkingStagesNokia}
+          {...FORMATS.vertical}
+          fps={VIDEO.fps}
+          durationInFrames={sec(HOOK_SECONDS, VIDEO.fps)}
+          defaultProps={{ withAudio: true }}
+        />
+        <Composition
+          id="TalkingStages-2-BlackBerry"
+          component={TalkingStagesQwerty}
+          {...FORMATS.vertical}
+          fps={VIDEO.fps}
+          durationInFrames={sec(HOOK_SECONDS, VIDEO.fps)}
+          defaultProps={{ withAudio: true }}
+        />
+        <Composition
+          id="TalkingStages-3-iPhone"
+          component={TalkingStagesIPhone}
+          {...FORMATS.vertical}
+          fps={VIDEO.fps}
+          durationInFrames={sec(HOOK_SECONDS, VIDEO.fps)}
+          defaultProps={{ withAudio: true }}
+        />
+        <Composition
+          id="TalkingStages-4-Flip"
+          component={TalkingStagesFlip}
+          {...FORMATS.vertical}
+          fps={VIDEO.fps}
+          durationInFrames={sec(HOOK_SECONDS, VIDEO.fps)}
+          defaultProps={{ withAudio: true }}
+        />
+        <Composition
+          id="TalkingStages-5-Android"
+          component={TalkingStagesAndroid}
           {...FORMATS.vertical}
           fps={VIDEO.fps}
           durationInFrames={sec(HOOK_SECONDS, VIDEO.fps)}
