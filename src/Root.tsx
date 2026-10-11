@@ -8,6 +8,7 @@ import { OutroScene } from "./compositions/Showcase/scenes/OutroScene";
 import { ShapesScene } from "./compositions/Showcase/scenes/ShapesScene";
 import { SpecsScene } from "./compositions/Showcase/scenes/SpecsScene";
 import { getShowcaseFrames, SHOWCASE_TIMING } from "./compositions/Showcase/timing";
+import { HOOK_SECONDS, TalkingStagesNokia } from "./compositions/TalkingStages";
 // @new-composition-imports (used by `npm run new` — keep this line)
 
 const showcaseFrames = getShowcaseFrames(VIDEO.fps);
@@ -93,6 +94,18 @@ export const RemotionRoot: React.FC = () => {
           {...VIDEO}
           durationInFrames={sec(SHOWCASE_TIMING.outro, VIDEO.fps)}
           defaultProps={{ cta: "npm run dev" }}
+        />
+      </Folder>
+
+      {/* "Talking Stages" lyric videos — vertical 1080×1920 for TikTok / Reels / Shorts. */}
+      <Folder name="TalkingStages">
+        <Composition
+          id="TalkingStages-1-Nokia"
+          component={TalkingStagesNokia}
+          {...FORMATS.vertical}
+          fps={VIDEO.fps}
+          durationInFrames={sec(HOOK_SECONDS, VIDEO.fps)}
+          defaultProps={{ withAudio: true }}
         />
       </Folder>
 

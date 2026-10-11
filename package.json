@@ -32,6 +32,7 @@
     "still": "remotion still Showcase out/showcase.png --frame=60",
     "new": "node scripts/new-composition.mjs",
     "lint": "eslint src && tsc",
-    "upgrade": "remotion upgrade"
+    "upgrade": "remotion upgrade",
+    "render:talking-stages": "remotion render TalkingStages-1-Nokia out/talking-stages-1-nokia.mp4"
   }
 }
