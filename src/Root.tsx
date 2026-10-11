@@ -17,6 +17,7 @@ import {
   TalkingStagesQwerty,
 } from "./compositions/TalkingStages";
 import { MawaVerse } from "./compositions/Mawa/MawaVerse";
+import { FIRE_COMPARE_FRAMES, FireCompare } from "./compositions/Mawa/FireCompare";
 import { VERSE_SECONDS as MAWA_SECONDS } from "./compositions/Mawa/timing";
 // @new-composition-imports (used by `npm run new` — keep this line)
 
@@ -167,6 +168,29 @@ export const RemotionRoot: React.FC = () => {
           fps={VIDEO.fps}
           durationInFrames={Math.round(MAWA_SECONDS * VIDEO.fps)}
           defaultProps={{ withLyrics: false, withAudio: true }}
+        />
+        <Composition
+          id="Mawa-Lyrics-BlenderFire"
+          component={MawaVerse}
+          {...FORMATS.vertical}
+          fps={VIDEO.fps}
+          durationInFrames={Math.round(MAWA_SECONDS * VIDEO.fps)}
+          defaultProps={{ withLyrics: true, withAudio: true, fire: "blender" as const }}
+        />
+        <Composition
+          id="Mawa-Clean-BlenderFire"
+          component={MawaVerse}
+          {...FORMATS.vertical}
+          fps={VIDEO.fps}
+          durationInFrames={Math.round(MAWA_SECONDS * VIDEO.fps)}
+          defaultProps={{ withLyrics: false, withAudio: true, fire: "blender" as const }}
+        />
+        <Composition
+          id="Mawa-FireCompare"
+          component={FireCompare}
+          {...FORMATS.vertical}
+          fps={VIDEO.fps}
+          durationInFrames={FIRE_COMPARE_FRAMES(VIDEO.fps)}
         />
       </Folder>
 

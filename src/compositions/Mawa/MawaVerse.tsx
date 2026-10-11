@@ -9,10 +9,11 @@ import { Dawn, Listen, NightSea, type Act1Times } from "./scenes/Act1";
 import { RoadAndPlanes, type Act2Times } from "./scenes/Act2";
 import { DuskRoad, Vortex, type Act3Times } from "./scenes/Act3";
 import { Fire, type Act4Times } from "./scenes/Act4";
+import { BlenderFire } from "./scenes/BlenderFire";
 import { Finale, type FinaleTimes } from "./scenes/Finale";
 import { VERSE_SECONDS, WORDS, lineEnd, lineStart } from "./timing";
 
-export type MawaProps = { withLyrics: boolean; withAudio: boolean };
+export type MawaProps = { withLyrics: boolean; withAudio: boolean; fire?: "2d" | "blender" };
 
 /** Clip-time of the n-th word of a lyric line. */
 const wordAt = (line: number, n: number) => WORDS.filter((w) => w.line === line)[n]?.start ?? lineStart(line);
@@ -21,7 +22,7 @@ const wordAt = (line: number, n: number) => WORDS.filter((w) => w.line === line)
  * The artist's "Mawa" verse (song 1:20 →), vertical 9:16.
  * Every scene is driven by the aligned word times in aligned.json.
  */
-export const MawaVerse: React.FC<MawaProps> = ({ withLyrics, withAudio }) => {
+export const MawaVerse: React.FC<MawaProps> = ({ withLyrics, withAudio, fire = "2d" }) => {
   const { fps } = useVideoConfig();
   const f = (s: number) => Math.round(s * fps);
 
@@ -101,7 +102,7 @@ export const MawaVerse: React.FC<MawaProps> = ({ withLyrics, withAudio }) => {
         <DuskRoad T={A3} />
       </Sequence>
       <Sequence name="Fire" from={f(A4.whipAt)} durationInFrames={f(A4.end) - f(A4.whipAt)}>
-        <Fire T={A4} />
+        {fire === "blender" ? <BlenderFire /> : <Fire T={A4} />}
       </Sequence>
       <Sequence name="Finale — MAWA, the cover, loop" from={f(FIN.start)} durationInFrames={f(FIN.end) - f(FIN.start)}>
         <Finale T={FIN} />
