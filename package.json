@@ -34,6 +34,7 @@
     "lint": "eslint src && tsc",
     "upgrade": "remotion upgrade",
     "render:talking-stages": "remotion render TalkingStages-1-Nokia out/talking-stages-1-nokia.mp4 && remotion render TalkingStages-2-BlackBerry out/talking-stages-2-blackberry.mp4 && remotion render TalkingStages-3-iPhone out/talking-stages-3-iphone.mp4 && remotion render TalkingStages-4-Flip out/talking-stages-4-flip.mp4 && remotion render TalkingStages-5-Android out/talking-stages-5-android.mp4",
-    "render:mawa": "remotion render Mawa-Lyrics out/mawa-verse-lyrics.mp4 && remotion render Mawa-Clean out/mawa-verse-clean.mp4"
+    "render:mawa": "remotion render Mawa-Lyrics out/mawa-verse-lyrics.mp4 && remotion render Mawa-Clean out/mawa-verse-clean.mp4",
+    "kk": "node scripts/render-kaya-kurrent.mjs"
   }
 }

@@ -197,3 +197,29 @@ The artist's verse on "Mawa" (song 1:20 → 2:10.5), vertical 1080×1920, two ve
   `Act2` (golden road, friends dissolve to embers, planes chase the sun), `Act3` (vortex → empty dusk road → whip),
   `Act4` (fire, embers → paper planes, wall of fire), `Finale` (MAWA letters, hits, cover tableau, push into the sun = loop).
 - Lyrics overlay sits mid-frame (`top: 880`) to stay clear of TikTok's caption/buttons.
+
+## Project: Kaya Kurrent news cards
+
+The artist's news brand. Each story becomes two PNG stills: a square feed post (1500×1500) and a vertical
+story/status (1080×1920). The user pastes a story (or uploads a .docx) and expects both images back.
+
+- `src/compositions/KayaKurrent/stories/<slug>.ts` — one file per story (`headline`, `byline`, `lede`, `body[]`,
+  optional `photo`); register it at the top of `stories/index.ts`. `imf-ecf-deal.ts` is the user's published
+  reference post — the square template was measured from it, so keep it as a regression check.
+- Rendering: `REMOTION_BROWSER_EXECUTABLE=/opt/pw-browsers/chromium_headless_shell-1194/chrome-linux/headless_shell npm run kk -- <slug>`
+  → `out/kaya-kurrent/<slug>-post.png` and `<slug>-story.png`. Look at both, then send them to the user.
+- `NewsPost.tsx` (square: frame, logo, footer drawn in code; optional faded photo behind) and `NewsStory.tsx`
+  (vertical: `public/kaya-kurrent/story-template.png` is the user's template, cleaned, with the handle removed and
+  redrawn from `HANDLE` in `brand.ts`). Fonts: Rajdhani Bold (headline, + thin stroke), DM Sans Light/Bold (text).
+- `FitBox` shrinks text from the template size (29.4 px body) to fit. If a story is still too long, a red
+  "TEXT TOO LONG" bar is rendered — never send an image with that bar; trim the story instead.
+
+**Editing a pasted story (the user's rules):**
+- Target ≈ 200–215 words for lede + body (the reference post is 212). The vertical format is the tighter one.
+- Cut, don't rewrite: drop whole paragraphs that repeat a quote or the lede, or are tangential. Keep quotes
+  word-for-word (or drop them whole). Merge an attribution sentence with its quote to save paragraph gaps.
+- Only light copy fixes (spacing before commas, "He added that, the" → "He added that the"). Mention any change
+  of meaning or any doubtful fact to the user instead of silently fixing it.
+- House style: headline in Title Case; byline "By Staff Reporter"; lede = first paragraph (rendered bold);
+  `**bold**` people and organisations on first mention in the body. If no headline is given, write one and say so.
+- Record what was cut in a comment at the top of the story file.
