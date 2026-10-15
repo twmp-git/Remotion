@@ -19,6 +19,7 @@ import {
 import { MawaVerse } from "./compositions/Mawa/MawaVerse";
 import { FIRE_COMPARE_FRAMES, FireCompare } from "./compositions/Mawa/FireCompare";
 import { VERSE_SECONDS as MAWA_SECONDS } from "./compositions/Mawa/timing";
+import { calculateVoiceNoteMetadata, VoiceNote, voiceNoteSchema } from "./compositions/VoiceNote/VoiceNote";
 // @new-composition-imports (used by `npm run new` — keep this line)
 
 const showcaseFrames = getShowcaseFrames(VIDEO.fps);
@@ -191,6 +192,20 @@ export const RemotionRoot: React.FC = () => {
           {...FORMATS.vertical}
           fps={VIDEO.fps}
           durationInFrames={FIRE_COMPARE_FRAMES(VIDEO.fps)}
+        />
+      </Folder>
+
+      {/* Voice-note sticker video: cut-out head + WhatsApp-style bubble in an illustrated art room. */}
+      <Folder name="VoiceNote">
+        <Composition
+          id="VoiceNote-Vertical"
+          component={VoiceNote}
+          {...FORMATS.vertical}
+          fps={VIDEO.fps}
+          durationInFrames={sec(45, VIDEO.fps)}
+          schema={voiceNoteSchema}
+          calculateMetadata={calculateVoiceNoteMetadata}
+          defaultProps={{ durationSeconds: 45, sentAt: "20:24", bubbleColor: "#A88C00" }}
         />
       </Folder>
 
