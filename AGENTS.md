@@ -265,6 +265,16 @@ table above, build it in `src/compositions/KayaKurrent/` reusing `brand.ts` (fon
 if the id pattern differs). If the user supplies a template image, measure it and check the render side by side
 against it, as was done for News Post with the IMF reference post.
 
+### Posting to the brand's pages (being set up)
+
+The user wants posting to **Facebook, Instagram, Threads and X**, for free (no Postiz or other paid scheduler).
+Plan: Meta's Graph API for Facebook + Instagram (app "Kaya Kurrent Pages", Page token in `META_PAGE_TOKEN`),
+the Threads API (separate app "Kaya Kurrent Threads", token in `THREADS_TOKEN`, 60-day token, refresh it before
+expiry), and the X API free tier (`X_API_KEY`, `X_API_SECRET`, `X_ACCESS_TOKEN`, `X_ACCESS_SECRET`). Hosts to allow:
+`graph.facebook.com`, `graph.threads.net`, `api.x.com`, `upload.twitter.com`. Never ask for tokens in chat — they go
+in the environment's secrets. Instagram/Threads need a public image URL (JPEG); X captions ≤ 280 chars, Threads ≤ 500.
+Start with drafts / a dry run and let the user approve before anything goes live.
+
 ### News templates
 
 - `src/compositions/KayaKurrent/stories/<slug>.ts` — one file per story (`headline`, `byline`, `lede`, `body[]`,
