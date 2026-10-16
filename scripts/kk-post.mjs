@@ -53,12 +53,19 @@ const requireApproved = () => {
 const scheduleFacebook = async (post) => {
   const when = Math.floor(new Date(post.time).getTime() / 1000);
   if (when < Date.now() / 1000 + 11 * 60) throw new Error(`${post.slug}: ${post.time} is less than 11 minutes away`);
-  const params = { url: post.images.cover, caption: post.captions.facebook, published: "false", scheduled_publish_time: String(when) };
   if (dryRun) return console.log(`[dry run] Facebook ${post.slug} at ${post.time}: cover + ${post.captions.facebook.length}-character caption`);
-  const { id, post_id } = await call("POST", `${FB}/${PAGE_ID}/photos`, params);
-  post.posted.facebook = { scheduled: post.time, photo_id: id, post_id };
+  // A Page post with the photo attached, not a scheduled photo (POST /photos with a schedule): Meta Business Suite
+  // hides scheduled photos, but lists these under Content → Scheduled and in Planner, where the user reviews them.
+  const photo = await call("POST", `${FB}/${PAGE_ID}/photos`, { url: post.images.cover, published: "false", temporary: "true" });
+  const { id } = await call("POST", `${FB}/${PAGE_ID}/feed`, {
+    message: post.captions.facebook,
+    "attached_media[0]": JSON.stringify({ media_fbid: photo.id }),
+    published: "false",
+    scheduled_publish_time: String(when),
+  });
+  post.posted.facebook = { scheduled: post.time, post_id: id };
   save();
-  console.log(`✓ Facebook ${post.slug} scheduled for ${post.time} (${post_id ?? id})`);
+  console.log(`✓ Facebook ${post.slug} scheduled for ${post.time} (${id})`);
 };
 
 // --- Instagram -----------------------------------------------------------------------------------------------

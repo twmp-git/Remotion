@@ -285,8 +285,9 @@ that host (`graph.threads.net` answers "Invalid OAuth 2.0 Access Token"). X answ
 characters (the 50-character secret pasted twice) and the access token/secret were 91-character values without the
 `<digits>-` prefix of OAuth 1.0a access tokens (likely OAuth 2.0 tokens); they need the "Access Token and Secret".
 **Review before posting:** only Facebook can be scheduled through the API (`published=false` +
-`scheduled_publish_time`, at least 10 minutes ahead); scheduled posts appear in Meta Business Suite's Planner, where
-the user can edit them. Instagram, Threads and X API posts go live immediately (no drafts or scheduling), so their
+`scheduled_publish_time`, at least 10 minutes ahead). Schedule a **Page post with the photo attached** (photo uploaded
+with `published=false&temporary=true`, then `/feed` with `attached_media`) — that shows in Business Suite (Content →
+Scheduled, Planner) where the user edits it. A scheduled photo (`/photos` with a schedule) is hidden there; don't use it. Instagram, Threads and X API posts go live immediately (no drafts or scheduling), so their
 captions must be approved in chat before publishing.
 
 **Posting workflow (built 16 Oct 2026):**
