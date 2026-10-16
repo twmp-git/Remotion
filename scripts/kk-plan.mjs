@@ -27,6 +27,7 @@ const SWIPE = "Swipe for the full story ➡️"; // Instagram and Threads, where
 const TZ_OFFSET = "+02:00"; // Malawi (CAT), no daylight saving
 const REPO_RAW = "https://raw.githubusercontent.com/twmp-git/Remotion";
 const HASHTAGS = "#KayaKurrent #NewsNowForThen";
+const OPP_HASHTAGS = "#KayaKurrent #Opportunities"; // the user's: no "OPPORTUNITY OF THE DAY" line, these tags
 // Country flag that opens each caption. Malawi unless listed here.
 const FLAGS = {
   "pope-leo-surgery": "🇻🇦",
@@ -111,13 +112,16 @@ const opportunityPost = (slug) => {
   if (!entry || !info) throw new Error(`${slug}: missing from opportunities/index.ts or opportunities/captions.ts`);
   if (info.hold) throw new Error(`${slug} is on hold: ${info.hold}`);
   toJpeg(`out/kaya-kurrent/${slug}-post.png`, `${dir}/${slug}.jpg`);
-  // Links only where they're clickable (Facebook, Threads); Instagram and X keep the report's wording.
-  const withLink = info.caption.replace(/ Full details and link on our page\./, "").replace(/\n(#\w+)$/, `\nApply: ${info.link}\n$1`);
+  // The report's caption without its "OPPORTUNITY OF THE DAY" line and #OpportunitiesDesk tag. Links only where
+  // they're clickable (Facebook, Threads); Instagram and X keep "Full details and link on our page."
+  const base = info.caption.replace(/^OPPORTUNITY OF THE DAY\n/, "").replace(/\n#OpportunitiesDesk$/, "");
+  const noLink = `${base}\n${OPP_HASHTAGS}`;
+  const withLink = `${base.replace(/ Full details and link on our page\./, "")}\nApply: ${info.link}\n${OPP_HASHTAGS}`;
   return {
     kind: "opportunity",
     title: entry.title.replace(/\n/g, " "),
     images: { cover: url(`${slug}.jpg`) },
-    captions: { facebook: withLink, instagram: info.caption, threads: withLink, x: info.caption },
+    captions: { facebook: withLink, instagram: noLink, threads: withLink, x: noLink },
   };
 };
 
