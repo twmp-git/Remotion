@@ -23,9 +23,9 @@ export const NewsStory: React.FC<KKStory> = (story) => {
 
       <FitBox
         style={{
-          left: 356,
+          left: 364,
           top: 104,
-          width: 578,
+          width: 556,
           height: 236,
           display: "flex",
           flexDirection: "column",
@@ -40,8 +40,8 @@ export const NewsStory: React.FC<KKStory> = (story) => {
       </FitBox>
 
       <FitBox
-        style={{ left: 146, top: 396, width: 782, height: 1208 }}
-        max={29.4}
+        style={{ left: 167, top: 396, width: 735, height: 1190 }}
+        max={56}
         min={22}
         fitKey={JSON.stringify([story.byline, story.lede, story.body])}
       >

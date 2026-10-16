@@ -64,8 +64,8 @@ export const NewsPost: React.FC<KKStory> = (story) => {
       </FitBox>
 
       <FitBox
-        style={{ left: 123, top: 372, width: 1262, height: 928 }}
-        max={29.4}
+        style={{ left: 151, top: 372, width: 1201, height: 900 }}
+        max={60}
         min={24}
         fitKey={JSON.stringify([story.byline, story.lede, story.body])}
       >

@@ -6,7 +6,7 @@ type FitBoxProps = {
   /** Position and size of the area the text must stay inside. */
   style: React.CSSProperties;
   contentStyle?: React.CSSProperties;
-  /** Largest font size (the template's size), in px. */
+  /** Largest font size, in px. */
   max: number;
   /** Smallest acceptable font size, in px. Below this the box shows a "too long" warning. */
   min: number;
@@ -17,7 +17,8 @@ type FitBoxProps = {
 };
 
 /**
- * Shrinks the font size (from `max` down to `min`) until the content fits the box.
+ * Picks the largest font size between `min` and `max` at which the content fits the box,
+ * so short stories grow to fill the frame and long ones shrink.
  * Children should size everything in `em` so spacing scales with the text.
  * If even `min` overflows, a red warning is drawn so a too-long story is never missed.
  */

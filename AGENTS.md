@@ -212,7 +212,9 @@ story/status (1080×1920). The user pastes a story (or uploads a .docx) and expe
   (vertical: `public/kaya-kurrent/story-template.png` is the user's template, cleaned, with the handle removed and
   redrawn from `HANDLE` in `brand.ts`). Fonts are the user's own files: d Diam (headline, 74.3 px; ASCII only, Rajdhani
   fills in accented letters) and DM Sans variable (Light body / Bold lede, pinned to `opsz 14`).
-- `FitBox` shrinks text from the template size (29.4 px body) to fit. If a story is still too long, a red
+- `FitBox` picks the largest text size that fills the frame (the user wants every card filled, short stories
+  get bigger text). Side margins inside the frame are 80 px (square) / 64 px (vertical) — the user asked for
+  this breathing room, don't tighten it. If a story is too long even at the minimum size, a red
   "TEXT TOO LONG" bar is rendered — never send an image with that bar; trim the story instead.
 
 **Editing a pasted story (the user's rules):**
