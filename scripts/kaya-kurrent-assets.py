@@ -227,3 +227,22 @@ big = Image.new("L", (W * S4, k.shape[0] * S4), 0)
 big.paste(Image.fromarray((k * 255).astype(np.uint8)).resize((k.shape[1] * S4, k.shape[0] * S4), Image.LANCZOS), (0, 0))
 ImageDraw.Draw(big).ellipse([(dcx - r) * S4, (dcy - r) * S4, (dcx + r) * S4, (dcy + r) * S4], fill=255)
 save_alpha(np.array(big.resize((W, k.shape[0]), Image.LANCZOS)).astype(np.float64) / 255, "logo-k.png")
+
+
+# --- Cover (photo + headline) -------------------------------------------------------------------
+# Vertical: the user's frame template with its black shapes. The photo, black panel, logo and
+# handle are drawn in code, so the logo and the handle ("@kayacurrent" in the reference) are removed.
+st = load("cover-story-reference.jpg").mean(axis=2)
+st[82:282, 100:262] = 255  # logo (on white)
+st[:, -1] = st[:, -2]  # JPEG edge column
+# Handle: white text on the black curve. Only clear pixels right of the curve's edge.
+ys = np.array([1775, 1800, 1825, 1850, 1915, 1940, 1965, 1990])
+xs = np.array([np.argmax(st[y, 560:] < 128) + 560 for y in ys])
+edge = np.polyfit(ys, xs, 2)
+for y in range(1845, 1912):
+    st[y, int(np.polyval(edge, y)) + 2 : 975] = 0
+save(np.repeat(st[..., None], 3, axis=2), "cover-story-bg.png")
+
+# Reference photos for the regression items (the panel area is covered again in the render).
+save(load("cover-post-reference.jpg")[84:1332, 69:1432], "photos/cover-reference-photographer.jpg")
+save(load("cover-story-reference.jpg")[91:1706, 110:1003], "photos/cover-reference-united.jpg")

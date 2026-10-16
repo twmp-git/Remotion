@@ -16,6 +16,14 @@ import {
   BreakingStory,
   breakingSchema,
 } from "./BreakingNews";
+import {
+  COVER_POST_SIZE,
+  COVER_STORY_SIZE,
+  CoverPost,
+  CoverStory,
+  coverSchema,
+} from "./Cover";
+import { COVERS } from "./covers";
 import { NewsPost, POST_SIZE } from "./NewsPost";
 import { NOTICES } from "./notices";
 import { OPPORTUNITIES } from "./opportunities";
@@ -39,7 +47,8 @@ import { STORIES } from "./stories";
 
 /**
  * Every Kaya Kurrent template, one sub-folder per template family.
- * Each item becomes KK-<slug>-Post and KK-<slug>-Story (rendered by `npm run kk`).
+ * Each item becomes KK-<slug>-Post and KK-<slug>-Story (rendered by `npm run kk`);
+ * covers become KK-<slug>-Cover-Post and KK-<slug>-Cover-Story.
  */
 export const KayaKurrentStills: React.FC = () => (
   <Folder name="KayaKurrent">
@@ -58,6 +67,26 @@ export const KayaKurrentStills: React.FC = () => (
             component={NewsStory}
             {...STORY_SIZE}
             schema={kkStorySchema}
+            defaultProps={props}
+          />
+        </React.Fragment>
+      ))}
+    </Folder>
+    <Folder name="News-Cover">
+      {COVERS.map(({ slug, ...props }) => (
+        <React.Fragment key={slug}>
+          <Still
+            id={`KK-${slug}-Cover-Post`}
+            component={CoverPost}
+            {...COVER_POST_SIZE}
+            schema={coverSchema}
+            defaultProps={props}
+          />
+          <Still
+            id={`KK-${slug}-Cover-Story`}
+            component={CoverStory}
+            {...COVER_STORY_SIZE}
+            schema={coverSchema}
             defaultProps={props}
           />
         </React.Fragment>

@@ -5,7 +5,7 @@ import type { KKStoryEntry } from "../schema";
 // documenting communities, tourism, copying others, closing summary).
 export const photographyYouthIncome: KKStoryEntry = {
   slug: "photography-youth-income",
-  headline: "Photography Emerging as Source of Income for Malawi's Youth",
+  headline: "Photography Emerging as Source of Income for Youth",
   byline: "By Staff Reporter",
   lede: "Photography is increasingly becoming a source of income for young people in Malawi, with experts encouraging aspiring photographers to turn their creative skills into sustainable businesses.",
   body: [

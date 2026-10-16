@@ -211,6 +211,7 @@ Every template comes as a pair: a square/feed **Post** and a vertical **Story**.
 | Template | Post size | Story size | Component | Items live in | Used for |
 |---|---|---|---|---|---|
 | **News** | 1500×1500 | 1080×1920 | `NewsPost.tsx` / `NewsStory.tsx` | `stories/` | Full news stories (headline, byline, bold lede, body) |
+| **News Cover** | 1500×1500 | 1125×2000 | `Cover.tsx` | `covers/index.ts` | Photo + headline slide posted before a News story (same slug as the story → `<slug>-cover-post.png` / `-cover-story.png`) |
 | **Breaking News** | 2000×2000 | 1125×2000 | `BreakingNews.tsx` | `breaking/index.ts` | Photo + one-line/short headline, optional subline |
 | **Celebration** | 1600×2000 (4:5) | 1125×2000 | `Celebration.tsx` | `celebrations/index.ts` | Holiday/occasion greetings on the calendar card (message, sticky-note text, dates, optional polaroid photo) |
 | **Public Notice** | 2000×2000 | 1125×2000 | `PublicNotice.tsx` | `notices/index.ts` | Official notices: kicker, title, `items` lines and/or a `body` paragraph, source |
@@ -244,6 +245,11 @@ Every template comes as a pair: a square/feed **Post** and a vertical **Story**.
   | `logo-K-uppercase.png` | uppercase blackletter K | `<Img>` |
   | `logo-wordmark-stacked.png` | "kaya / kurrent" on two lines | `<Img>` |
   | `wordmark.png` | "kaya kurrent" on one line (cut from the Celebration template) | `<Wordmark>` in `parts.tsx` |
+- News Cover: square = the News Post frame filled with the photo, black panel (Breaking panel "k" at 0.75 scale)
+  with the headline (d Diam 74.3, same as News Post) and white wordmark; vertical = `cover-story-bg.png` (the
+  user's frame + black shapes, logo/handle removed) with the photo inside the frame and its own panel "k" drawn as
+  SVG. The user's vertical reference had the handle misspelt "@kayacurrent"; HANDLE is drawn instead. Headlines are
+  centred on the panel. Needs a photo per story (ask for one); a portrait photo suits the vertical best.
 - Celebration: the message is tucked under the sticky note/polaroid via a clip path (`covers`); the small partial
   calendar numbers (e.g. "3") are baked into the background and do not change with the dates.
 - Breaking News needs a photo in `public/kaya-kurrent/photos/` (optionally `storyPhoto` for a different crop, and
