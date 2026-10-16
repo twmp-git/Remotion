@@ -1,0 +1,119 @@
+import React from "react";
+import { Folder, Still } from "remotion";
+import { BREAKING } from "./breaking";
+import {
+  CELEBRATION_POST_SIZE,
+  CELEBRATION_STORY_SIZE,
+  CelebrationPost,
+  CelebrationStory,
+  celebrationSchema,
+} from "./Celebration";
+import { CELEBRATIONS } from "./celebrations";
+import {
+  BREAKING_POST_SIZE,
+  BREAKING_STORY_SIZE,
+  BreakingPost,
+  BreakingStory,
+  breakingSchema,
+} from "./BreakingNews";
+import { NewsPost, POST_SIZE } from "./NewsPost";
+import { NOTICES } from "./notices";
+import {
+  NOTICE_POST_SIZE,
+  NOTICE_STORY_SIZE,
+  NoticePost,
+  NoticeStory,
+  noticeSchema,
+} from "./PublicNotice";
+import { NewsStory, STORY_SIZE } from "./NewsStory";
+import { kkStorySchema } from "./schema";
+import { STORIES } from "./stories";
+
+/**
+ * Every Kaya Kurrent template, one sub-folder per template family.
+ * Each item becomes KK-<slug>-Post and KK-<slug>-Story (rendered by `npm run kk`).
+ */
+export const KayaKurrentStills: React.FC = () => (
+  <Folder name="KayaKurrent">
+    <Folder name="News">
+      {STORIES.map(({ slug, ...props }) => (
+        <React.Fragment key={slug}>
+          <Still
+            id={`KK-${slug}-Post`}
+            component={NewsPost}
+            {...POST_SIZE}
+            schema={kkStorySchema}
+            defaultProps={props}
+          />
+          <Still
+            id={`KK-${slug}-Story`}
+            component={NewsStory}
+            {...STORY_SIZE}
+            schema={kkStorySchema}
+            defaultProps={props}
+          />
+        </React.Fragment>
+      ))}
+    </Folder>
+    <Folder name="Breaking-News">
+      {BREAKING.map(({ slug, ...props }) => (
+        <React.Fragment key={slug}>
+          <Still
+            id={`KK-${slug}-Post`}
+            component={BreakingPost}
+            {...BREAKING_POST_SIZE}
+            schema={breakingSchema}
+            defaultProps={props}
+          />
+          <Still
+            id={`KK-${slug}-Story`}
+            component={BreakingStory}
+            {...BREAKING_STORY_SIZE}
+            schema={breakingSchema}
+            defaultProps={props}
+          />
+        </React.Fragment>
+      ))}
+    </Folder>
+    <Folder name="Public-Notice">
+      {NOTICES.map(({ slug, ...props }) => (
+        <React.Fragment key={slug}>
+          <Still
+            id={`KK-${slug}-Post`}
+            component={NoticePost}
+            {...NOTICE_POST_SIZE}
+            schema={noticeSchema}
+            defaultProps={props}
+          />
+          <Still
+            id={`KK-${slug}-Story`}
+            component={NoticeStory}
+            {...NOTICE_STORY_SIZE}
+            schema={noticeSchema}
+            defaultProps={props}
+          />
+        </React.Fragment>
+      ))}
+    </Folder>
+    <Folder name="Celebration">
+      {CELEBRATIONS.map(({ slug, ...props }) => (
+        <React.Fragment key={slug}>
+          <Still
+            id={`KK-${slug}-Post`}
+            component={CelebrationPost}
+            {...CELEBRATION_POST_SIZE}
+            schema={celebrationSchema}
+            defaultProps={props}
+          />
+          <Still
+            id={`KK-${slug}-Story`}
+            component={CelebrationStory}
+            {...CELEBRATION_STORY_SIZE}
+            schema={celebrationSchema}
+            defaultProps={props}
+          />
+        </React.Fragment>
+      ))}
+    </Folder>
+  </Folder>
+);

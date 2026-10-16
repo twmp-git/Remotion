@@ -1,5 +1,5 @@
 import React from "react";
-import { Composition, Folder, Still } from "remotion";
+import { Composition, Folder } from "remotion";
 import { FORMATS, sec, VIDEO } from "./config/video";
 import { showcaseSchema } from "./compositions/Showcase/schema";
 import { Showcase } from "./compositions/Showcase/Showcase";
@@ -19,10 +19,7 @@ import {
 import { MawaVerse } from "./compositions/Mawa/MawaVerse";
 import { FIRE_COMPARE_FRAMES, FireCompare } from "./compositions/Mawa/FireCompare";
 import { VERSE_SECONDS as MAWA_SECONDS } from "./compositions/Mawa/timing";
-import { NewsPost, POST_SIZE } from "./compositions/KayaKurrent/NewsPost";
-import { NewsStory, STORY_SIZE } from "./compositions/KayaKurrent/NewsStory";
-import { kkStorySchema } from "./compositions/KayaKurrent/schema";
-import { STORIES as KK_STORIES } from "./compositions/KayaKurrent/stories";
+import { KayaKurrentStills } from "./compositions/KayaKurrent/Stills";
 // @new-composition-imports (used by `npm run new` — keep this line)
 
 const showcaseFrames = getShowcaseFrames(VIDEO.fps);
@@ -198,27 +195,8 @@ export const RemotionRoot: React.FC = () => {
         />
       </Folder>
 
-      {/* Kaya Kurrent news cards — stories live in src/compositions/KayaKurrent/stories/. */}
-      <Folder name="KayaKurrent">
-        {KK_STORIES.map(({ slug, ...story }) => (
-          <React.Fragment key={slug}>
-            <Still
-              id={`KK-${slug}-Post`}
-              component={NewsPost}
-              {...POST_SIZE}
-              schema={kkStorySchema}
-              defaultProps={story}
-            />
-            <Still
-              id={`KK-${slug}-Story`}
-              component={NewsStory}
-              {...STORY_SIZE}
-              schema={kkStorySchema}
-              defaultProps={story}
-            />
-          </React.Fragment>
-        ))}
-      </Folder>
+      {/* Kaya Kurrent templates — see src/compositions/KayaKurrent/Stills.tsx. */}
+      <KayaKurrentStills />
 
       {/* @new-compositions (used by `npm run new` — keep this line) */}
     </>
