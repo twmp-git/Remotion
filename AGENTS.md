@@ -294,9 +294,14 @@ captions must be approved in chat before publishing.
    (the plan: slot times every 45 min, captions per platform, image links) + `<date>.md` (review sheet to send the user)
    + 1440 px JPEGs in `posting/kaya-kurrent/<date>/`. Commit and push them: Instagram/Threads fetch the images from
    `raw.githubusercontent.com` (the repo is public). `npm run kk:post -- <plan> check` confirms the links work.
-2. Caption style (the user's): IG/Threads/X = country flag + the story's lede + blank line + `#KayaKurrent #NewsNowForThen`,
-   with the cover + news card as a carousel. Facebook = flag + lede + the whole body (bold markers removed) + hashtags,
-   with the **cover only**. Edit captions in the plan JSON if the user changes them.
+2. Caption style (the user's): IG/Threads = country flag + the story's lede + "Swipe for the full story ➡️" + hashtags
+   `#KayaKurrent #NewsNowForThen`, with the cover + news card as a carousel; X = the same without the swipe line.
+   Facebook = flag + lede + the whole body (bold markers removed) + hashtags, with the **cover only**.
+   **Links:** never on News stories; Opportunities and Public Notices carry their link, but only where links are
+   clickable (Facebook and Threads — not Instagram; X is clickable too but shows link posts to fewer people, ask).
+   Edit captions in the plan JSON if the user changes them.
+   **Times:** about 45 minutes apart but on "patterned", human-looking times, not a rigid grid — e.g. 07:37, 08:28,
+   09:09, 10:01, 10:10, 2:22; keep 11:11 for Opportunities. Pass them to `kk:plan` as a comma-separated list.
 3. When the user approves, set `"approved": true` in the plan. `npm run kk:post -- <plan> schedule-facebook` schedules
    every Facebook post. For IG/Threads/X, set a `send_later` reminder per slot and at each one run
    `npm run kk:post -- <plan> publish <slug>`. Post ids are written back into the plan — commit it after each run.

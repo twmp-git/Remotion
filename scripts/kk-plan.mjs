@@ -4,7 +4,11 @@
  * JPEG copies of the rendered cards (Instagram and Threads need public JPEG links; the repo is public, so the
  * images are committed and linked from raw.githubusercontent.com).
  *
- *   npm run kk:plan -- <YYYY-MM-DD> <HH:MM> <slug> [slug…]      # first post at HH:MM Malawi time, then every 45 min
+ *   npm run kk:plan -- <YYYY-MM-DD> <HH:MM> <slug> [slug…]            # first post at HH:MM Malawi time, then every 45 min
+ *   npm run kk:plan -- <YYYY-MM-DD> 07:37,08:28,09:09 <slug> <slug> <slug>  # or one time per slug
+ *
+ * The user likes "patterned" times (07:37, 08:28, 10:10, 2:22; 11:11 for Opportunities) about 45 minutes apart,
+ * not a rigid grid — pick the times and pass them as a list.
  *
  * Render the stories first (`npm run kk -- <slug…>`). Writes posting/kaya-kurrent/<date>.json (the plan, which
  * scripts/kk-post.mjs reads; edit captions there) and <date>.md (the review sheet for the user).
@@ -14,6 +18,7 @@ import { existsSync, mkdirSync, writeFileSync } from "node:fs";
 import { pathToFileURL } from "node:url";
 
 const SPACING_MIN = 45;
+const SWIPE = "Swipe for the full story ➡️"; // Instagram and Threads, where the post is a carousel
 const TZ_OFFSET = "+02:00"; // Malawi (CAT), no daylight saving
 const REPO_RAW = "https://raw.githubusercontent.com/twmp-git/Remotion";
 const HASHTAGS = "#KayaKurrent #NewsNowForThen";
@@ -25,8 +30,14 @@ const FLAGS = {
 };
 
 const [date, start, ...slugs] = process.argv.slice(2);
-if (!/^\d{4}-\d{2}-\d{2}$/.test(date ?? "") || !/^\d{2}:\d{2}$/.test(start ?? "") || slugs.length === 0) {
-  console.error("Usage: npm run kk:plan -- <YYYY-MM-DD> <HH:MM> <slug> [slug…]");
+const times = (start ?? "").split(",");
+if (
+  !/^\d{4}-\d{2}-\d{2}$/.test(date ?? "") ||
+  !times.every((t) => /^\d{2}:\d{2}$/.test(t)) ||
+  slugs.length === 0 ||
+  (times.length > 1 && times.length !== slugs.length)
+) {
+  console.error("Usage: npm run kk:plan -- <YYYY-MM-DD> <HH:MM | HH:MM,HH:MM,… one per slug> <slug> [slug…]");
   process.exit(1);
 }
 
@@ -56,7 +67,7 @@ const toJpeg = (png, jpg) => {
   ]);
 };
 
-const [h, m] = start.split(":").map(Number);
+const toMinutes = (t) => Number(t.slice(0, 2)) * 60 + Number(t.slice(3));
 const posts = [];
 for (const [i, slug] of slugs.entries()) {
   const file = `src/compositions/KayaKurrent/stories/${slug}.ts`;
@@ -64,9 +75,10 @@ for (const [i, slug] of slugs.entries()) {
   const flag = FLAGS[slug] ?? "🇲🇼";
   const lede = plain(story.lede);
   const short = `${flag} ${lede}\n\n${HASHTAGS}`;
+  const carousel = `${flag} ${lede}\n\n${SWIPE}\n\n${HASHTAGS}`;
   const full = [`${flag} ${lede}`, ...story.body.map(plain), HASHTAGS].join("\n\n");
 
-  const minutes = h * 60 + m + i * SPACING_MIN;
+  const minutes = times.length > 1 ? toMinutes(times[i]) : toMinutes(times[0]) + i * SPACING_MIN;
   const time = `${date}T${String(Math.floor(minutes / 60)).padStart(2, "0")}:${String(minutes % 60).padStart(2, "0")}:00${TZ_OFFSET}`;
 
   for (const [png, jpg] of [
@@ -81,12 +93,13 @@ for (const [i, slug] of slugs.entries()) {
     headline: story.headline,
     time,
     // Facebook: the cover only, full story in the caption. Elsewhere: cover + news card, lede as the caption.
+    // News stories carry no links (the user's rule; Opportunities and Notices do, on Facebook and Threads only).
     images: { cover: url(`${slug}-cover.jpg`), card: url(`${slug}-card.jpg`) },
-    captions: { facebook: full, instagram: short, threads: short, x: short },
+    captions: { facebook: full, instagram: carousel, threads: carousel, x: short },
     posted: {},
   });
   if (xLength(short) > 280) console.warn(`⚠ ${slug}: X caption is ${xLength(short)} characters (limit 280)`);
-  if (short.length > 500) console.warn(`⚠ ${slug}: Threads caption is over 500 characters`);
+  if (carousel.length > 500) console.warn(`⚠ ${slug}: Threads caption is over 500 characters`);
 }
 
 writeFileSync(`posting/kaya-kurrent/${date}.json`, JSON.stringify({ date, approved: false, posts }, null, 2) + "\n");
@@ -96,16 +109,19 @@ const clock = (iso) => iso.slice(11, 16);
 const md = [
   `# Kaya Kurrent posts — ${date}`,
   "",
-  `Every ${SPACING_MIN} minutes from ${start} (Malawi time). Facebook: the cover + the full story as the caption, scheduled`,
-  "in Meta Business Suite. Instagram, Threads and X: cover + news card, the first paragraph as the caption, posted at the",
-  "same time after you approve.",
+  "Times are Malawi time. Facebook: the cover + the full story as the caption, scheduled in Meta Business Suite.",
+  "Instagram, Threads and X: cover + news card, the first paragraph as the caption, posted at the same time.",
   "",
   ...posts.flatMap((p) => [
     `## ${clock(p.time)} — ${p.headline}`,
     "",
-    `**Instagram / Threads / X** (${xLength(p.captions.x)} of 280 characters on X)`,
+    "**Instagram / Threads**",
     "",
     ...p.captions.instagram.split("\n").map((l) => `> ${l}`),
+    "",
+    `**X** (${xLength(p.captions.x)} of 280 characters)`,
+    "",
+    ...p.captions.x.split("\n").map((l) => `> ${l}`),
     "",
     "**Facebook**",
     "",
