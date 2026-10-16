@@ -214,9 +214,14 @@ Every template comes as a pair: a square/feed **Post** and a vertical **Story**.
 | **Breaking News** | 2000×2000 | 1125×2000 | `BreakingNews.tsx` | `breaking/index.ts` | Photo + one-line/short headline, optional subline |
 | **Celebration** | 1600×2000 (4:5) | 1125×2000 | `Celebration.tsx` | `celebrations/index.ts` | Holiday/occasion greetings on the calendar card (message, sticky-note text, dates, optional polaroid photo) |
 | **Public Notice** | 2000×2000 | 1125×2000 | `PublicNotice.tsx` | `notices/index.ts` | Official notices: kicker, title, `items` lines and/or a `body` paragraph, source |
+| **Opportunities** | 1500×1500 | 1125×2000 | `Opportunities.tsx` | `opportunities/index.ts` | Opportunities Desk posts: title + "Who it's for / What you get / Deadline" rows on the mustard card over a blurred photo |
 
 - "the square one / the vertical one" = Post / Story of whichever template is being discussed.
-- The user supplied 5 of these 6 designs; **Public Notice Story** was designed by Claude to match the square.
+- The user supplied the square/feed designs plus the Breaking and Celebration verticals; **Public Notice Story** and
+  **Opportunities Story** were designed by Claude to match their squares.
+- Opportunities: rows use the report's DETAIL lines (`**Who it's for:**  …`, `**What you get:**  **amount** …`,
+  `**Deadline:**  Closes …`); the SHORT CAPTION + link go in the caption file, not on the image. Flag links that are
+  Google searches or general listing pages rather than the official page. Each needs a photo (blurred behind the card).
 - Reference images of the user's originals are in `assets-src/kaya-kurrent/`; each family has a `*-reference`
   item that rebuilds the original — keep those as regression checks (compare side by side after changes).
 - Raster assets (Breaking panel watermark, Celebration backgrounds with text removed, wordmark, sample photos)

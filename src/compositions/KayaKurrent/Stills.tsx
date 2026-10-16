@@ -18,6 +18,14 @@ import {
 } from "./BreakingNews";
 import { NewsPost, POST_SIZE } from "./NewsPost";
 import { NOTICES } from "./notices";
+import { OPPORTUNITIES } from "./opportunities";
+import {
+  OPPORTUNITY_POST_SIZE,
+  OPPORTUNITY_STORY_SIZE,
+  OpportunityPost,
+  OpportunityStory,
+  opportunitySchema,
+} from "./Opportunities";
 import {
   NOTICE_POST_SIZE,
   NOTICE_STORY_SIZE,
@@ -110,6 +118,26 @@ export const KayaKurrentStills: React.FC = () => (
             component={CelebrationStory}
             {...CELEBRATION_STORY_SIZE}
             schema={celebrationSchema}
+            defaultProps={props}
+          />
+        </React.Fragment>
+      ))}
+    </Folder>
+    <Folder name="Opportunities">
+      {OPPORTUNITIES.map(({ slug, ...props }) => (
+        <React.Fragment key={slug}>
+          <Still
+            id={`KK-${slug}-Post`}
+            component={OpportunityPost}
+            {...OPPORTUNITY_POST_SIZE}
+            schema={opportunitySchema}
+            defaultProps={props}
+          />
+          <Still
+            id={`KK-${slug}-Story`}
+            component={OpportunityStory}
+            {...OPPORTUNITY_STORY_SIZE}
+            schema={opportunitySchema}
             defaultProps={props}
           />
         </React.Fragment>
