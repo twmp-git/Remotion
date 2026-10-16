@@ -272,7 +272,10 @@ Plan: Meta's Graph API for Facebook + Instagram (app "Kaya Kurrent Pages", Page 
 the Threads API (separate app "Kaya Kurrent Threads", token in `THREADS_TOKEN`, 60-day token, refresh it before
 expiry), and the X API free tier (`X_API_KEY`, `X_API_SECRET`, `X_ACCESS_TOKEN`, `X_ACCESS_SECRET`). Hosts to allow:
 `graph.facebook.com`, `graph.threads.net`, `api.x.com`, `upload.twitter.com`. Never ask for tokens in chat — they go
-in the environment's secrets. Instagram/Threads need a public image URL (JPEG); X captions ≤ 280 chars, Threads ≤ 500.
+in the environment's network secrets, which add `Authorization: Bearer <token>` to requests for
+`graph.facebook.com` (Page token) and `graph.threads.net` (Threads token): call those hosts without a token and
+the proxy adds it (there is no env var). The Threads token can't be refreshed from here (the new token would need
+saving) — remind the user to regenerate it every ~60 days. Instagram/Threads need a public image URL (JPEG); X captions ≤ 280 chars, Threads ≤ 500.
 Start with drafts / a dry run and let the user approve before anything goes live.
 
 ### News templates
