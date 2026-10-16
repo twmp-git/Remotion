@@ -262,7 +262,10 @@ Every template comes as a pair: a square/feed **Post** and a vertical **Story**.
   Break titles at phrases with `\n` and give the vertical its own `storyTitle` (lines ≲ 15 characters); lines never
   wrap — a long line shrinks the title. Items stay a fixed size (like Opportunities rows). Items that also matter to
   ordinary readers get a News story + cover too ("BOTH" in the sweep), with a relevant photo. Notice captions + links
-  are in `notices/captions.ts` (link as "Full notice: …" on Facebook/Threads only; `kk:plan` doesn't handle notices yet).
+  are in `notices/captions.ts`; `kk:plan` handles `notice-…` slugs (the square card everywhere, "Full notice: <link>"
+  on Facebook/Threads only, hashtags `#KayaKurrent #PublicNotice`).
+- **Photos (the user's rule): equipment, objects or minerals — no people** (stock photos of doctors etc. rarely look
+  Malawian), and no landscapes that don't look like Malawi (e.g. huge open-pit mines). Planes: no airline branding.
 - Photos: only `images.pexels.com` is reachable from the cloud environment (Unsplash/Wikimedia are blocked). Find
   Pexels ids with WebSearch (`allowed_domains: ["pexels.com"]`), download `?w=600` previews to compare, then `?w=2400`.
 - Breaking News needs a photo in `public/kaya-kurrent/photos/` (optionally `storyPhoto` for a different crop, and
