@@ -8,28 +8,31 @@ import type { CoverEntry } from "../Cover";
 export const COVERS: CoverEntry[] = [
   // 16 October 2026 — Pexels photos (pexels.com/photo/<id>).
   {
-    // Pexels 3886248
+    // Photo from the user: Scorchers players on the pitch.
     slug: "scorchers-zimbabwe",
     headline: "Scorchers Thrash Zimbabwe 7-0,\nSet Up Kenya Clash",
     storyHeadline: "Scorchers Thrash\nZimbabwe 7-0,\nSet Up Kenya Clash",
     photo: "kaya-kurrent/photos/scorchers-cover.jpg",
-    photoPosition: "50% 50%",
+    photoPosition: "50% 100%",
+    storyPhotoPosition: "41% 50%",
   },
   {
-    // Pexels 32101415
+    // Photo from the user: goal celebration.
     slug: "bullets-top",
     headline: "Bullets Back on Top\nas Title Race Tightens",
     storyHeadline: "Bullets Back on Top\nas Title Race\nTightens",
     photo: "kaya-kurrent/photos/bullets-cover.jpg",
-    photoPosition: "50% 50%",
+    photoPosition: "12% 50%",
+    storyPhotoPosition: "56% 50%",
   },
   {
-    // Pexels 5412763
+    // Photo from the user: fans with the flag. Only 960×540, so it is soft when enlarged.
     slug: "beach-sharks-seychelles",
     headline: "Beach Sharks Defend\n6-2 Lead in Salima",
     storyHeadline: "Beach Sharks\nDefend 6-2 Lead\nin Salima",
     photo: "kaya-kurrent/photos/beach-sharks-cover.jpg",
-    photoPosition: "50% 40%",
+    photoPosition: "50% 50%",
+    storyPhotoPosition: "42% 50%",
   },
   {
     // Pexels 14094442
