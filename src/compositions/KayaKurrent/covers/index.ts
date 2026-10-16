@@ -6,6 +6,44 @@ import type { CoverEntry } from "../Cover";
  * Add new items at the top.
  */
 export const COVERS: CoverEntry[] = [
+  // Notices and Stories sweep, 16 October 2026 — Pexels photos (pexels.com/photo/<id>).
+  {
+    // Pexels 4769129 (operating theatre: theatre lights, anaesthesia and monitoring equipment);
+    // vertical: Pexels 8089556 (theatre lights over a surgical team).
+    slug: "mzuzu-hospital-equipment",
+    headline: "Mzuzu Central Hospital\nPlans to Buy Medical Equipment",
+    storyHeadline: "Mzuzu Central Hospital\nPlans to Buy\nMedical Equipment",
+    photo: "kaya-kurrent/photos/mzuzu-theatre.jpg",
+    photoPosition: "50% 30%",
+    storyPhoto: "kaya-kurrent/photos/mzuzu-theatre-portrait.jpg",
+    storyPhotoPosition: "50% 20%",
+  },
+  {
+    // Pexels 3958186 (toilet rolls) — no free photo of a toilet paper production line was found.
+    slug: "must-toilet-paper-line",
+    headline: "MUST Plans to Buy\nToilet Paper Production Line",
+    storyHeadline: "MUST Plans to Buy\nToilet Paper\nProduction Line",
+    photo: "kaya-kurrent/photos/tissue-rolls.jpg",
+    photoPosition: "50% 50%",
+  },
+  {
+    // Pexels 4321308 (a flock of goats on dry ground) — no photo of Malawian goats was found.
+    slug: "mangochi-goats",
+    headline: "Mangochi Plans to Buy\n166 Goats for Lulanga",
+    storyHeadline: "Mangochi Plans\nto Buy 166 Goats\nfor Lulanga",
+    photo: "kaya-kurrent/photos/goat-flock.jpg",
+    photoPosition: "50% 40%",
+    storyPhotoPosition: "45% 50%",
+  },
+  {
+    // Pexels 2892618 (open-pit mine) — no free photo of rare earth minerals was found.
+    slug: "balaka-rare-earth-mine",
+    headline: "Balaka Rare Earth Mine\nAims for First Output",
+    storyHeadline: "Balaka Rare Earth\nMine Aims for\nFirst Output",
+    photo: "kaya-kurrent/photos/open-pit-mine.jpg",
+    photoPosition: "50% 50%",
+    storyPhotoPosition: "50% 50%",
+  },
   // 16 October 2026 — Pexels photos (pexels.com/photo/<id>).
   {
     // Photo from the user: Scorchers players on the pitch.

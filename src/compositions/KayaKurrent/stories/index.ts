@@ -1,4 +1,8 @@
 import type { KKStoryEntry } from "../schema";
+import { balakaRareEarthMine } from "./balaka-rare-earth-mine";
+import { mangochiGoats } from "./mangochi-goats";
+import { mustToiletPaperLine } from "./must-toilet-paper-line";
+import { mzuzuHospitalEquipment } from "./mzuzu-hospital-equipment";
 import { beachSharksSeychelles } from "./beach-sharks-seychelles";
 import { bulletsTop } from "./bullets-top";
 import { ethiopiaMekelleFlights } from "./ethiopia-mekelle-flights";
@@ -18,6 +22,11 @@ import { photographyYouthIncome } from "./photography-youth-income";
  * Add new stories at the top.
  */
 export const STORIES: KKStoryEntry[] = [
+  // Notices and Stories sweep, 16 October 2026
+  mzuzuHospitalEquipment,
+  mustToiletPaperLine,
+  mangochiGoats,
+  balakaRareEarthMine,
   // 16 October 2026
   scorchersZimbabwe,
   bulletsTop,

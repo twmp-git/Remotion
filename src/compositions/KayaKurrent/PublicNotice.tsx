@@ -9,7 +9,10 @@ import { RichText } from "./RichText";
 export const noticeSchema = z.object({
   /** Red label at the top right, e.g. "//PUBLIC NOTICE". */
   kicker: z.string().optional(),
+  /** "\n" chooses where the title breaks (keep phrases and names whole). */
   title: z.string(),
+  /** Different breaks for the vertical, when the square's lines are too long for it. */
+  storyTitle: z.string().optional(),
   /** Lines such as "**Petrol:** MK 2,530.00 per litre" (** = bold). */
   items: z.array(z.string()).optional(),
   /** Optional paragraph instead of / after the items (** = bold). */
@@ -33,6 +36,13 @@ type Layout = {
     h: number;
     title: number;
     center?: boolean;
+    /** Title line height (the user's vertical sets the title tighter than the square). */
+    titleLineHeight: number;
+    /** Item and source sizes in em of the title. */
+    items: number;
+    source: number;
+    /** Title letter-spacing (the square is set tight; the vertical is not). */
+    tracking: string;
   };
   wordmark: {
     x: number;
@@ -49,6 +59,8 @@ type Layout = {
     handle: number;
     left: number;
     right: number;
+    /** The user's vertical templates set the footer in Arial (Arimo), with the handle at a fixed x. */
+    arial?: { handleLeft: number };
   };
 };
 
@@ -59,7 +71,7 @@ const POST: Layout = {
   panel: { x: 91, y: 567, w: 1817, h: 1110, r: 190 },
   logo: { x: 48, y: 127, h: 240 },
   kicker: { right: 2000 - 1890, top: 190, size: 120 },
-  content: { x: 258, y: 677, w: 1400, h: 743, title: 169 },
+  content: { x: 258, y: 677, w: 1480, h: 743, title: 169, titleLineHeight: 1.065, items: 0.4325, source: 0.193, tracking: "-0.025em" },
   wordmark: {
     x: 845,
     y: 1512,
@@ -78,29 +90,54 @@ const POST: Layout = {
   },
 };
 
-// Vertical: designed to match the square (no reference was supplied).
+// Vertical: measured from the user's vertical "MERA ADJUSTS FUEL PUMP PRICES" template (1125×2000), with its
+// errors fixed: the handle was misspelt "@kayacurrent" (HANDLE is drawn instead) and the price lines touched.
 const STORY: Layout = {
   size: { width: 1125, height: 2000 },
-  split: 1500,
-  panel: { x: 56, y: 430, w: 1013, h: 1200, r: 120 },
-  logo: { x: 62, y: 110, h: 170 },
-  kicker: { right: 1125 - 1066, top: 150, size: 84 },
-  content: { x: 128, y: 500, w: 880, h: 930, title: 160, center: true },
+  split: 1309,
+  panel: { x: 95, y: 746, w: 939, h: 863, r: 140 },
+  logo: { x: 86, y: 497, h: 136 },
+  kicker: { right: 88, top: 533, size: 68 },
+  content: { x: 186, y: 896, w: 790, h: 550, title: 115, titleLineHeight: 0.89, items: 0.358, source: 0.155, tracking: "0em" },
   wordmark: {
-    x: 457,
-    y: 1525,
-    w: 211,
-    lineY: 1549,
-    lineW: 115,
-    gap: 32,
-    thick: 3,
+    x: 476,
+    y: 1477,
+    w: 173,
+    lineY: 1496,
+    lineW: 94,
+    gap: 26,
+    thick: 2.5,
   },
-  footer: { baseline: 1840, tagline: 34, handle: 38, left: 70, right: 70 },
+  footer: { baseline: 1841, tagline: 41.7, handle: 41.7, left: 96, right: 0, arial: { handleLeft: 697 } },
 };
+
+/** Footer text in Arial metrics (Arimo), placed by its baseline. */
+const ArialText: React.FC<{ children: React.ReactNode; baseline: number; size: number; left: number }> = ({
+  children,
+  baseline,
+  size,
+  left,
+}) => (
+  <div
+    style={{
+      position: "absolute",
+      left,
+      top: baseline - 0.905 * size,
+      fontFamily: kkFonts.storyFooter,
+      fontSize: size,
+      lineHeight: 1,
+      color: kkColors.ink,
+      whiteSpace: "nowrap",
+    }}
+  >
+    {children}
+  </div>
+);
 
 const Notice: React.FC<NoticeProps & { layout: Layout }> = ({
   kicker,
   title,
+  storyTitle,
   items,
   body,
   source,
@@ -168,17 +205,19 @@ const Notice: React.FC<NoticeProps & { layout: Layout }> = ({
         contentStyle={{ color: kkColors.ink }}
         max={L.content.title}
         min={L.content.title * 0.45}
-        fitKey={JSON.stringify([title, items, body, source])}
+        fitKey={JSON.stringify([title, storyTitle, items, body, source])}
       >
         <div
           style={{
             fontFamily: kkFonts.headline,
-            lineHeight: 1.065,
-            letterSpacing: "-0.025em",
+            lineHeight: L.content.titleLineHeight,
+            letterSpacing: L.content.tracking,
             textTransform: "uppercase",
+            // Lines break only at "\n"; a line that is too wide shrinks the title instead of wrapping.
+            whiteSpace: "pre",
           }}
         >
-          {title}
+          {(L === STORY && storyTitle) || title}
         </div>
         <div
           style={{
@@ -190,8 +229,10 @@ const Notice: React.FC<NoticeProps & { layout: Layout }> = ({
           {items && items.length > 0 ? (
             <div
               style={{
-                fontSize: "0.4325em",
-                lineHeight: 0.97,
+                // Fixed size (like the Opportunities rows): only the title shrinks to make room.
+                fontSize: L.content.title * L.content.items,
+                // The template's 0.97 made descenders ("per") touch the next line.
+                lineHeight: 1.12,
                 marginTop: "0.25em",
               }}
             >
@@ -205,7 +246,7 @@ const Notice: React.FC<NoticeProps & { layout: Layout }> = ({
           {body ? (
             <div
               style={{
-                fontSize: "0.25em",
+                fontSize: L.content.title * 0.25,
                 lineHeight: 1.25,
                 marginTop: "0.6em",
               }}
@@ -216,7 +257,7 @@ const Notice: React.FC<NoticeProps & { layout: Layout }> = ({
           {source ? (
             <div
               style={{
-                fontSize: "0.193em",
+                fontSize: L.content.title * L.content.source,
                 lineHeight: 1.2,
                 marginTop: "2.27em",
               }}
@@ -231,22 +272,35 @@ const Notice: React.FC<NoticeProps & { layout: Layout }> = ({
       <Wordmark x={wm.x} y={wm.y} width={wm.w} />
       <div style={line(wm.x + wm.w + wm.gap)} />
 
-      <BaselineText
-        baseline={L.footer.baseline}
-        size={L.footer.tagline}
-        left={L.footer.left}
-        color={kkColors.ink}
-      >
-        {TAGLINE}
-      </BaselineText>
-      <BaselineText
-        baseline={L.footer.baseline}
-        size={L.footer.handle}
-        right={L.footer.right}
-        color={kkColors.ink}
-      >
-        {HANDLE}
-      </BaselineText>
+      {L.footer.arial ? (
+        <>
+          <ArialText baseline={L.footer.baseline} size={L.footer.tagline} left={L.footer.left}>
+            {TAGLINE}
+          </ArialText>
+          <ArialText baseline={L.footer.baseline} size={L.footer.handle} left={L.footer.arial.handleLeft}>
+            {HANDLE}
+          </ArialText>
+        </>
+      ) : (
+        <>
+          <BaselineText
+            baseline={L.footer.baseline}
+            size={L.footer.tagline}
+            left={L.footer.left}
+            color={kkColors.ink}
+          >
+            {TAGLINE}
+          </BaselineText>
+          <BaselineText
+            baseline={L.footer.baseline}
+            size={L.footer.handle}
+            right={L.footer.right}
+            color={kkColors.ink}
+          >
+            {HANDLE}
+          </BaselineText>
+        </>
+      )}
     </AbsoluteFill>
   );
 };
@@ -257,7 +311,7 @@ export const NoticePost: React.FC<NoticeProps> = (p) => (
   <Notice {...p} layout={POST} />
 );
 
-/** Template "Public Notice Story": vertical, 1125×2000 (designed to match the square). */
+/** Template "Public Notice Story": vertical, 1125×2000 (the user's vertical template). */
 export const NOTICE_STORY_SIZE = STORY.size;
 export const NoticeStory: React.FC<NoticeProps> = (p) => (
   <Notice {...p} layout={STORY} />

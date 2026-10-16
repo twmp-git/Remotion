@@ -218,8 +218,9 @@ Every template comes as a pair: a square/feed **Post** and a vertical **Story**.
 | **Opportunities** | 1500×1500 | 1125×2000 | `Opportunities.tsx` | `opportunities/index.ts` | Opportunities Desk posts: title + "Who it's for / What you get / Deadline" rows on the mustard card over a sharp photo |
 
 - "the square one / the vertical one" = Post / Story of whichever template is being discussed.
-- The user supplied the square/feed designs plus the Breaking and Celebration verticals; **Public Notice Story** and
-  **Opportunities Story** were designed by Claude to match their squares.
+- The user supplied the square/feed designs plus the Breaking, Celebration and Public Notice verticals; the
+  **Opportunities Story** was designed by Claude to match its square. (The Public Notice Story was rebuilt on 16 Oct
+  from the user's vertical; its errors were fixed: handle "@kayacurrent" → HANDLE, price lines touching.)
 - Opportunities: rows use the report's DETAIL lines (`**Who it's for:**  …`, `**What you get:**  **amount** …`,
   `**Deadline:**  Closes …`); the SHORT CAPTION + link go in the caption file, not on the image. Flag links that are
   Google searches or general listing pages rather than the official page. Each needs a photo (shown sharp behind the card — the user doesn't want it blurred;
@@ -255,6 +256,15 @@ Every template comes as a pair: a square/feed **Post** and a vertical **Story**.
   `storyPhotoPosition` re-centres a landscape photo for the vertical.
 - Celebration: the message is tucked under the sticky note/polaroid via a clip path (`covers`); the small partial
   calendar numbers (e.g. "3") are baked into the background and do not change with the dates.
+- Public Notice (the user's rules, 16 Oct 2026): a **notice card** is for readers who must act — headline (subject,
+  verb, object, no adjectives; tenders say "seeks", "invites bids" or "plans to buy", never "buys"), at most three
+  `items` lines and a source line. No photo. **One tender per card** (never a "tenders this week" list on one card).
+  Break titles at phrases with `\n` and give the vertical its own `storyTitle` (lines ≲ 15 characters); lines never
+  wrap — a long line shrinks the title. Items stay a fixed size (like Opportunities rows). Items that also matter to
+  ordinary readers get a News story + cover too ("BOTH" in the sweep), with a relevant photo. Notice captions + links
+  are in `notices/captions.ts` (link as "Full notice: …" on Facebook/Threads only; `kk:plan` doesn't handle notices yet).
+- Photos: only `images.pexels.com` is reachable from the cloud environment (Unsplash/Wikimedia are blocked). Find
+  Pexels ids with WebSearch (`allowed_domains: ["pexels.com"]`), download `?w=600` previews to compare, then `?w=2400`.
 - Breaking News needs a photo in `public/kaya-kurrent/photos/` (optionally `storyPhoto` for a different crop, and
   `photoPosition`). Ask the user for one if they don't send it.
 
