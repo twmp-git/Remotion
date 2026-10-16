@@ -214,14 +214,21 @@ Every template comes as a pair: a square/feed **Post** and a vertical **Story**.
 | **Breaking News** | 2000×2000 | 1125×2000 | `BreakingNews.tsx` | `breaking/index.ts` | Photo + one-line/short headline, optional subline |
 | **Celebration** | 1600×2000 (4:5) | 1125×2000 | `Celebration.tsx` | `celebrations/index.ts` | Holiday/occasion greetings on the calendar card (message, sticky-note text, dates, optional polaroid photo) |
 | **Public Notice** | 2000×2000 | 1125×2000 | `PublicNotice.tsx` | `notices/index.ts` | Official notices: kicker, title, `items` lines and/or a `body` paragraph, source |
-| **Opportunities** | 1500×1500 | 1125×2000 | `Opportunities.tsx` | `opportunities/index.ts` | Opportunities Desk posts: title + "Who it's for / What you get / Deadline" rows on the mustard card over a blurred photo |
+| **Opportunities** | 1500×1500 | 1125×2000 | `Opportunities.tsx` | `opportunities/index.ts` | Opportunities Desk posts: title + "Who it's for / What you get / Deadline" rows on the mustard card over a sharp photo |
 
 - "the square one / the vertical one" = Post / Story of whichever template is being discussed.
 - The user supplied the square/feed designs plus the Breaking and Celebration verticals; **Public Notice Story** and
   **Opportunities Story** were designed by Claude to match their squares.
 - Opportunities: rows use the report's DETAIL lines (`**Who it's for:**  …`, `**What you get:**  **amount** …`,
   `**Deadline:**  Closes …`); the SHORT CAPTION + link go in the caption file, not on the image. Flag links that are
-  Google searches or general listing pages rather than the official page. Each needs a photo (blurred behind the card).
+  Google searches or general listing pages rather than the official page. Each needs a photo (shown sharp behind the card — the user doesn't want it blurred;
+  Pexels photos can be fetched from `images.pexels.com/photos/<id>/pexels-photo-<id>.jpeg?w=2400`, the site itself blocks bots).
+- Opportunities typography (the user's rules): break titles at natural phrase boundaries with `\n` (never split a
+  name like "Ban Ki-moon Foundation"), and give the vertical its own breaks via `storyTitle` when the square's lines
+  are too long for it. The title is sized by line count; rows are a fixed size on every post (square 38 px,
+  vertical 47 px) and the title shrinks first if space runs out. A short rule sits under the title. Vertical rows
+  put the bold label on its own line. Inner margins ≈ 110 px (square) / 95 px (vertical) from the card edge.
+  Keep money amounts together with non-breaking spaces (`Up\u00a0to\u00a0GBP\u00a015,000`).
 - Reference images of the user's originals are in `assets-src/kaya-kurrent/`; each family has a `*-reference`
   item that rebuilds the original — keep those as regression checks (compare side by side after changes).
 - Raster assets (Breaking panel watermark, Celebration backgrounds with text removed, wordmark, sample photos)

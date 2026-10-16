@@ -9,7 +9,8 @@ export const OPPORTUNITIES: OpportunityEntry[] = [
   // Crawl report #46. Photo: Pexels 8853505 (solar technician).
   {
     slug: "opp-ban-ki-moon-green-jobs",
-    title: "Ban Ki-moon Foundation Green Jobs Mentorship 2026",
+    title: "Ban Ki-moon Foundation\nGreen Jobs Mentorship 2026",
+    storyTitle: "Ban Ki-moon\nFoundation\nGreen Jobs\nMentorship 2026",
     rows: [
       "**Who it's for:**  Young people worldwide interested in green careers",
       "**What you get:**  **Structured mentorship** toward a career in green jobs.",
@@ -21,10 +22,11 @@ export const OPPORTUNITIES: OpportunityEntry[] = [
   // Crawl report #47. Photo: Pexels 20853361 (village gathering).
   {
     slug: "opp-commonwealth-foundation-grant",
-    title: "Commonwealth Foundation Grant 2026-2027",
+    title: "Commonwealth Foundation\nGrant 2026-2027",
+    storyTitle: "Commonwealth\nFoundation Grant\n2026-2027",
     rows: [
       "**Who it's for:**  Civil society organisations across the Commonwealth, Malawi included",
-      "**What you get:**  **Up to GBP 15,000** for civil society work.",
+      "**What you get:**  **Up\u00a0to\u00a0GBP\u00a015,000** for civil society work.",
       "**Deadline:**  Closes 26 October 2026.",
     ],
     photo: "kaya-kurrent/photos/village-meeting.jpg",
@@ -33,7 +35,7 @@ export const OPPORTUNITIES: OpportunityEntry[] = [
   // Crawl report #59. Photo: Pexels 8851548 (scientist at a microscope).
   {
     slug: "opp-dorothy-hodgkin-fellowship",
-    title: "Royal Society Dorothy Hodgkin Fellowship 2027",
+    title: "Royal Society\nDorothy Hodgkin\nFellowship 2027",
     rows: [
       "**Who it's for:**  Early-career researchers wanting to lead their own research",
       "**What you get:**  A **funded fellowship** to run your own research programme.",
@@ -45,7 +47,8 @@ export const OPPORTUNITIES: OpportunityEntry[] = [
   // Crawl report #60. Photo: Pexels 5029929 (tree planting).
   {
     slug: "opp-tyler-prize-ambassador",
-    title: "Tyler Prize Student Ambassador 2027",
+    title: "Tyler Prize\nStudent Ambassador 2027",
+    storyTitle: "Tyler Prize\nStudent\nAmbassador 2027",
     rows: [
       "**Who it's for:**  Students worldwide",
       "**What you get:**  An **ambassador role** with a leading environmental prize.",
@@ -57,10 +60,11 @@ export const OPPORTUNITIES: OpportunityEntry[] = [
   // Crawl report #101. Photo: Pexels 6077123 (Lady Justice and gavel).
   {
     slug: "opp-un-international-law-africa",
-    title: "UN Regional Course in International Law for Africa 2027",
+    title: "UN Regional Course\nin International Law\nfor Africa 2027",
+    storyTitle: "UN Regional\nCourse in\nInternational Law\nfor Africa 2027",
     rows: [
       "**Who it's for:**  African lawyers and government officials",
-      "**What you get:**  A **place on the UN regional international law course**, with funding available.",
+      "**What you get:**  A place on the UN regional international law course, with **funding available**.",
       "**Deadline:**  Closes 30 October 2026.",
     ],
     photo: "kaya-kurrent/photos/lady-justice.jpg",
@@ -69,7 +73,8 @@ export const OPPORTUNITIES: OpportunityEntry[] = [
   // Crawl report 16-22 October 2026, #4. The report's source link is a Google search, not the official page.
   {
     slug: "opp-royal-entomological-photo",
-    title: "Royal Entomological Society Photography Competition",
+    title: "Royal Entomological Society\nPhotography Competition",
+    storyTitle: "Royal Entomological\nSociety Photography\nCompetition",
     rows: [
       "**Who it's for:**  Photographers worldwide",
       "**What you get:**  **Cash prizes** plus publication across the Society's platforms.",
@@ -81,10 +86,10 @@ export const OPPORTUNITIES: OpportunityEntry[] = [
   // Crawl report #3.
   {
     slug: "opp-first-flights-film-fund",
-    title: "First Flights Short Film Fund",
+    title: "First Flights\nShort Film Fund",
     rows: [
       "**Who it's for:**  Emerging filmmakers worldwide",
-      "**What you get:**  **Up to US$10,000** to bring an original short film to life.",
+      "**What you get:**  **Up\u00a0to\u00a0US$10,000** to bring an original short film to life.",
       "**Deadline:**  Closes 31 October 2026.",
     ],
     photo: "kaya-kurrent/photos/film-set.jpg",
@@ -93,7 +98,7 @@ export const OPPORTUNITIES: OpportunityEntry[] = [
   // Crawl report #5.
   {
     slug: "opp-evaristo-poetry-prize",
-    title: "Evaristo Prize for African Poetry",
+    title: "Evaristo Prize\nfor African Poetry",
     rows: [
       "**Who it's for:**  Emerging African poets who have not yet published a full-length collection",
       "**What you get:**  **US$1,500** plus publication and recognition.",
@@ -105,7 +110,8 @@ export const OPPORTUNITIES: OpportunityEntry[] = [
   // Crawl report #1 — also the user's own template, rebuilt (band photo cropped from it, already blurred).
   {
     slug: "opp-au-logo-competition",
-    title: "AU Theme of the Year 2027 Logo Competition",
+    title: "AU Theme of the Year\n2027 Logo Competition",
+    storyTitle: "AU Theme\nof the Year 2027\nLogo Competition",
     rows: [
       "**Who it's for:**  Designers across Africa, including Malawians",
       "**What you get:**  **US$5,000** and your logo used by the African Union for a whole year.",
