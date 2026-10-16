@@ -277,6 +277,9 @@ in the environment's network secrets, which add `Authorization: Bearer <token>` 
 the proxy adds it (there is no env var). The Threads token can't be refreshed from here (the new token would need
 saving) — remind the user to regenerate it every ~60 days. Instagram/Threads need a public image URL (JPEG); X captions ≤ 280 chars, Threads ≤ 500.
 Start with drafts / a dry run and let the user approve before anything goes live.
+Verified 16 Oct 2026: Facebook Page "KayaKurrent" id `1428667776996790`, Instagram @kayakurrent id
+`17841426611925261` (both via the Page token). X: OAuth 1.0a request signing can't use the bearer secret box, so its four
+keys go in as environment variables (`X_API_KEY`, `X_API_SECRET`, `X_ACCESS_TOKEN`, `X_ACCESS_SECRET`).
 
 ### News templates
 
