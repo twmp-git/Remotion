@@ -221,6 +221,7 @@ story/status (1080×1920). The user pastes a story (or uploads a .docx) and expe
   word-for-word (or drop them whole). Merge an attribution sentence with its quote to save paragraph gaps.
 - Only light copy fixes (spacing before commas, "He added that, the" → "He added that the"). Mention any change
   of meaning or any doubtful fact to the user instead of silently fixing it.
+- Headlines are always rendered in CAPITALS (done in code via `textTransform`; write them in Title Case in the story file).
 - Headlines: 8 words or fewer — shorten longer ones and tell the user. Use straight apostrophes (the headline font has no curly ones).
 - House style: headline in Title Case; byline "By Staff Reporter"; lede = first paragraph (rendered bold);
   `**bold**` people and organisations on first mention in the body. If no headline is given, write one and say so.

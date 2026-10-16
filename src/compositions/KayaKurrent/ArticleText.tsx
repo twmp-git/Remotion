@@ -43,5 +43,7 @@ export const headlineContentStyle: React.CSSProperties = {
   fontWeight: 400,
   lineHeight: 1,
   color: kkColors.ink,
+  // House style: headlines are always set in capitals.
+  textTransform: "uppercase",
   textWrap: "pretty",
 };
