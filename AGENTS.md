@@ -271,15 +271,23 @@ The user wants posting to **Facebook, Instagram, Threads and X**, for free (no P
 Plan: Meta's Graph API for Facebook + Instagram (app "Kaya Kurrent Pages", Page token in `META_PAGE_TOKEN`),
 the Threads API (separate app "Kaya Kurrent Threads", token in `THREADS_TOKEN`, 60-day token, refresh it before
 expiry), and the X API free tier (`X_API_KEY`, `X_API_SECRET`, `X_ACCESS_TOKEN`, `X_ACCESS_SECRET`). Hosts to allow:
-`graph.facebook.com`, `graph.threads.net`, `api.x.com`, `upload.twitter.com`. Never ask for tokens in chat — they go
+`graph.facebook.com`, `graph.threads.com`, `api.x.com`, `upload.twitter.com`. Never ask for tokens in chat — they go
 in the environment's network secrets, which add `Authorization: Bearer <token>` to requests for
-`graph.facebook.com` (Page token) and `graph.threads.net` (Threads token): call those hosts without a token and
+`graph.facebook.com` (Page token) and `graph.threads.com` (Threads token): call those hosts without a token and
 the proxy adds it (there is no env var). The Threads token can't be refreshed from here (the new token would need
 saving) — remind the user to regenerate it every ~60 days. Instagram/Threads need a public image URL (JPEG); X captions ≤ 280 chars, Threads ≤ 500.
 Start with drafts / a dry run and let the user approve before anything goes live.
 Verified 16 Oct 2026: Facebook Page "KayaKurrent" id `1428667776996790`, Instagram @kayakurrent id
 `17841426611925261` (both via the Page token). X: OAuth 1.0a request signing can't use the bearer secret box, so its four
 keys go in as environment variables (`X_API_KEY`, `X_API_SECRET`, `X_ACCESS_TOKEN`, `X_ACCESS_SECRET`).
+Verified 16 Oct 2026 (later): Threads @kayakurrent id `39121008284211072` — use `graph.threads.com`, the secret is set for
+that host (`graph.threads.net` answers "Invalid OAuth 2.0 Access Token"). X answered 401: `X_API_SECRET` was 100
+characters (the 50-character secret pasted twice) and the access token/secret were 91-character values without the
+`<digits>-` prefix of OAuth 1.0a access tokens (likely OAuth 2.0 tokens); they need the "Access Token and Secret".
+**Review before posting:** only Facebook can be scheduled through the API (`published=false` +
+`scheduled_publish_time`, at least 10 minutes ahead); scheduled posts appear in Meta Business Suite's Planner, where
+the user can edit them. Instagram, Threads and X API posts go live immediately (no drafts or scheduling), so their
+captions must be approved in chat before publishing.
 
 ### News templates
 

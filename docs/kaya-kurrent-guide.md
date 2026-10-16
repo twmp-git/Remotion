@@ -48,9 +48,13 @@ Every template makes two images: a **square** (feed post) and a **vertical** (st
 |---|---|
 | Facebook (Page "KayaKurrent") | Connected |
 | Instagram (@kayakurrent) | Connected |
-| Threads | Token not accepted yet: regenerate it in the Kaya Kurrent Threads app (User Token Generator, starts with `TH`) and update the "Threads" secret |
-| X | Add the four keys as environment variables: `X_API_KEY`, `X_API_SECRET`, `X_ACCESS_TOKEN`, `X_ACCESS_SECRET` |
+| Threads (@kayakurrent) | Connected |
+| X | Keys added but not accepted yet: `X_API_SECRET` was pasted twice, and `X_ACCESS_TOKEN` / `X_ACCESS_SECRET` need to be the **Access Token and Secret** (the token starts with your account number and a dash) |
 
-In a new session, say "test all four connections" (nothing is posted). Then ask Claude to build the posting tool;
-it will do a practice run for you to approve before anything goes live.
+In a new session, say "test all four connections" (nothing is posted).
+
+How checking works: Facebook posts can be **scheduled**, so they wait in Meta Business Suite (Planner) where you can
+edit or delete them before they go out. Instagram, Threads and X can't be scheduled or drafted from outside their
+apps; anything sent goes live at once. So Claude shows you those captions in the chat first and only posts after
+you say they're approved.
 Remember: the Threads token expires about every 60 days and must be regenerated.
