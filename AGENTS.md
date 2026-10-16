@@ -249,7 +249,10 @@ Every template comes as a pair: a square/feed **Post** and a vertical **Story**.
   with the headline (d Diam 74.3, same as News Post) and white wordmark; vertical = `cover-story-bg.png` (the
   user's frame + black shapes, logo/handle removed) with the photo inside the frame and its own panel "k" drawn as
   SVG. The user's vertical reference had the handle misspelt "@kayacurrent"; HANDLE is drawn instead. Headlines are
-  centred on the panel. Needs a photo per story (ask for one); a portrait photo suits the vertical best.
+  centred on the panel. Break headlines at natural phrases with `\n` (each line then stays whole and the size
+  shrinks to fit) and give the vertical its own breaks via `storyHeadline`; never split a phrase like "Set Up".
+  Needs a photo per story (ask for one, or match one from Pexels); a portrait photo suits the vertical best,
+  `storyPhotoPosition` re-centres a landscape photo for the vertical.
 - Celebration: the message is tucked under the sticky note/polaroid via a clip path (`covers`); the small partial
   calendar numbers (e.g. "3") are baked into the background and do not change with the dates.
 - Breaking News needs a photo in `public/kaya-kurrent/photos/` (optionally `storyPhoto` for a different crop, and

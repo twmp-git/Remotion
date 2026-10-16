@@ -6,8 +6,10 @@ import { FitBox } from "./FitBox";
 import { Logo, Wordmark } from "./parts";
 
 export const coverSchema = z.object({
-  /** Same headline as the news story (set in capitals). */
+  /** Same headline as the news story (set in capitals). "\n" chooses where it breaks. */
   headline: z.string(),
+  /** Optional different breaks for the narrower vertical panel. */
+  storyHeadline: z.string().optional(),
   /** Photo in public/ (e.g. "kaya-kurrent/photos/x.jpg"). */
   photo: z.string(),
   /** CSS object-position, e.g. "50% 30%". */
@@ -82,7 +84,17 @@ const Headline: React.FC<{
     min={min}
     fitKey={text}
   >
-    {text}
+    {/* Chosen breaks ("\n") are kept: each line stays whole and the size shrinks to fit. */}
+    {text.split("\n").map((line, i, lines) => (
+      <div
+        key={i}
+        style={
+          lines.length > 1 ? { whiteSpace: "nowrap" } : { textWrap: "balance" }
+        }
+      >
+        {line}
+      </div>
+    ))}
   </FitBox>
 );
 
@@ -232,6 +244,7 @@ const STORY_WATERMARK = [
 export const COVER_STORY_SIZE = { width: 1125, height: 2000 } as const;
 export const CoverStory: React.FC<CoverProps> = ({
   headline,
+  storyHeadline,
   photo,
   photoPosition,
   storyPhoto,
@@ -281,7 +294,7 @@ export const CoverStory: React.FC<CoverProps> = ({
         </svg>
       </div>
       <Headline
-        text={headline}
+        text={storyHeadline ?? headline}
         box={STORY.headline}
         max={83}
         min={56}
