@@ -42,12 +42,15 @@ const call = async (method, url, params = {}) => {
   return json;
 };
 
-const requireApproved = () => {
-  if (!dryRun && plan.approved !== true) {
-    console.error('The plan is not approved yet. Set "approved": true once the user has approved the captions.');
+/** "approved": true covers every platform; {"facebook": true} approves one (e.g. scheduling for review in Business Suite). */
+const requireApproved = (platform) => {
+  if (!dryRun && plan.approved !== true && plan.approved?.[platform] !== true) {
+    console.error(`${platform} is not approved in this plan yet. Set "approved" once the user has approved the captions.`);
     process.exit(1);
   }
 };
+/** News: cover + news card (a carousel). Opportunities: one image. */
+const imagesOf = (post) => [post.images.cover, post.images.card].filter(Boolean);
 
 // --- Facebook ------------------------------------------------------------------------------------------------
 const scheduleFacebook = async (post) => {
@@ -80,16 +83,22 @@ const waitFor = async (check, label) => {
 };
 
 const publishInstagram = async (post) => {
-  if (dryRun) return console.log(`[dry run] Instagram ${post.slug}: carousel (cover + card), caption ${post.captions.instagram.length} characters`);
-  const children = [];
-  for (const image_url of [post.images.cover, post.images.card]) {
-    children.push((await call("POST", `${FB}/${IG_ID}/media`, { image_url, is_carousel_item: "true" })).id);
+  const images = imagesOf(post);
+  if (dryRun) return console.log(`[dry run] Instagram ${post.slug}: ${images.length} image(s), caption ${post.captions.instagram.length} characters`);
+  let id;
+  if (images.length === 1) {
+    ({ id } = await call("POST", `${FB}/${IG_ID}/media`, { image_url: images[0], caption: post.captions.instagram }));
+  } else {
+    const children = [];
+    for (const image_url of images) {
+      children.push((await call("POST", `${FB}/${IG_ID}/media`, { image_url, is_carousel_item: "true" })).id);
+    }
+    ({ id } = await call("POST", `${FB}/${IG_ID}/media`, {
+      media_type: "CAROUSEL",
+      children: children.join(","),
+      caption: post.captions.instagram,
+    }));
   }
-  const { id } = await call("POST", `${FB}/${IG_ID}/media`, {
-    media_type: "CAROUSEL",
-    children: children.join(","),
-    caption: post.captions.instagram,
-  });
   await waitFor(async () => (await call("GET", `${FB}/${id}`, { fields: "status_code" })).status_code, "Instagram");
   const media = await call("POST", `${FB}/${IG_ID}/media_publish`, { creation_id: id });
   const { permalink } = await call("GET", `${FB}/${media.id}`, { fields: "permalink" });
@@ -100,16 +109,22 @@ const publishInstagram = async (post) => {
 
 // --- Threads -------------------------------------------------------------------------------------------------
 const publishThreads = async (post) => {
-  if (dryRun) return console.log(`[dry run] Threads ${post.slug}: carousel (cover + card), text ${post.captions.threads.length}/500 characters`);
-  const children = [];
-  for (const image_url of [post.images.cover, post.images.card]) {
-    children.push((await call("POST", `${THREADS}/me/threads`, { media_type: "IMAGE", image_url, is_carousel_item: "true" })).id);
+  const images = imagesOf(post);
+  if (dryRun) return console.log(`[dry run] Threads ${post.slug}: ${images.length} image(s), text ${post.captions.threads.length}/500 characters`);
+  let id;
+  if (images.length === 1) {
+    ({ id } = await call("POST", `${THREADS}/me/threads`, { media_type: "IMAGE", image_url: images[0], text: post.captions.threads }));
+  } else {
+    const children = [];
+    for (const image_url of images) {
+      children.push((await call("POST", `${THREADS}/me/threads`, { media_type: "IMAGE", image_url, is_carousel_item: "true" })).id);
+    }
+    ({ id } = await call("POST", `${THREADS}/me/threads`, {
+      media_type: "CAROUSEL",
+      children: children.join(","),
+      text: post.captions.threads,
+    }));
   }
-  const { id } = await call("POST", `${THREADS}/me/threads`, {
-    media_type: "CAROUSEL",
-    children: children.join(","),
-    text: post.captions.threads,
-  });
   await waitFor(async () => (await call("GET", `${THREADS}/${id}`, { fields: "status" })).status, "Threads");
   const thread = await call("POST", `${THREADS}/me/threads_publish`, { creation_id: id });
   const { permalink } = await call("GET", `${THREADS}/${thread.id}`, { fields: "permalink" });
@@ -145,9 +160,9 @@ const xCall = async (url, body) => {
 };
 
 const publishX = async (post) => {
-  if (dryRun) return console.log(`[dry run] X ${post.slug}: cover + card, text "${post.captions.x.slice(0, 40)}…"`);
+  if (dryRun) return console.log(`[dry run] X ${post.slug}: ${imagesOf(post).length} image(s), text "${post.captions.x.slice(0, 40)}…"`);
   const media_ids = [];
-  for (const image of [post.images.cover, post.images.card]) {
+  for (const image of imagesOf(post)) {
     const form = new FormData();
     form.append("media", new Blob([await (await fetch(image)).arrayBuffer()], { type: "image/jpeg" }), "image.jpg");
     form.append("media_category", "tweet_image");
@@ -187,16 +202,16 @@ if (command === "check") {
     console.log(`${post.time}  ${post.slug}  posted: ${Object.keys(post.posted).join(", ") || "nothing yet"}`);
   }
   console.log(ok ? "✓ all images reachable" : "✗ problems above");
-  console.log(plan.approved ? "✓ approved" : "Not approved yet");
+  console.log(`Approved: ${JSON.stringify(plan.approved)}`);
 } else if (command === "schedule-facebook") {
-  requireApproved();
+  requireApproved("facebook");
   for (const post of plan.posts) if (!post.posted.facebook) await scheduleFacebook(post);
 } else if (command === "publish") {
-  requireApproved();
   const [slug, ...platforms] = rest;
   const post = plan.posts.find((p) => p.slug === slug);
   if (!post) throw new Error(`No post "${slug}" in ${planPath}`);
   for (const platform of platforms.length ? platforms : Object.keys(PUBLISHERS)) {
+    requireApproved(platform);
     if (post.posted[platform]) {
       console.log(`- ${platform} ${slug}: already posted`);
       continue;

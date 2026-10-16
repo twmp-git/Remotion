@@ -1,20 +1,25 @@
 #!/usr/bin/env node
 /**
- * Builds a Kaya Kurrent posting plan from the story files: captions for every platform, the time slots and
- * JPEG copies of the rendered cards (Instagram and Threads need public JPEG links; the repo is public, so the
- * images are committed and linked from raw.githubusercontent.com).
+ * Builds a Kaya Kurrent posting plan: captions for every platform, the time slots and JPEG copies of the rendered
+ * cards (Instagram and Threads need public JPEG links; the repo is public, so the images are committed and linked
+ * from raw.githubusercontent.com).
  *
  *   npm run kk:plan -- <YYYY-MM-DD> <HH:MM> <slug> [slug…]            # first post at HH:MM Malawi time, then every 45 min
  *   npm run kk:plan -- <YYYY-MM-DD> 07:37,08:28,09:09 <slug> <slug> <slug>  # or one time per slug
+ *   npm run kk:plan -- 2026-10-17:opportunities 11:11,12:12 opp-a opp-b    # a second plan for the same day
+ *
+ * News stories (stories/<slug>.ts): Facebook gets the cover + the full story; Instagram/Threads a carousel (cover +
+ * news card) with the lede; X the lede. No links. Opportunities (slugs starting "opp-"): the square card on every
+ * platform with the crawl report's caption from opportunities/captions.ts; the link only on Facebook and Threads.
  *
  * The user likes "patterned" times (07:37, 08:28, 10:10, 2:22; 11:11 for Opportunities) about 45 minutes apart,
  * not a rigid grid — pick the times and pass them as a list.
  *
- * Render the stories first (`npm run kk -- <slug…>`). Writes posting/kaya-kurrent/<date>.json (the plan, which
- * scripts/kk-post.mjs reads; edit captions there) and <date>.md (the review sheet for the user).
+ * Render first (`npm run kk -- <slug…>`). Writes posting/kaya-kurrent/<name>.json (the plan, which
+ * scripts/kk-post.mjs reads; edit captions there) and <name>.md (the review sheet for the user).
  */
 import { execFileSync } from "node:child_process";
-import { existsSync, mkdirSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { pathToFileURL } from "node:url";
 
 const SPACING_MIN = 45;
@@ -29,7 +34,9 @@ const FLAGS = {
   "un-budget-2027": "🇺🇳",
 };
 
-const [date, start, ...slugs] = process.argv.slice(2);
+const [nameArg, start, ...slugs] = process.argv.slice(2);
+const [date, label] = (nameArg ?? "").split(":");
+const name = label ? `${date}-${label}` : date;
 const times = (start ?? "").split(",");
 if (
   !/^\d{4}-\d{2}-\d{2}$/.test(date ?? "") ||
@@ -37,7 +44,13 @@ if (
   slugs.length === 0 ||
   (times.length > 1 && times.length !== slugs.length)
 ) {
-  console.error("Usage: npm run kk:plan -- <YYYY-MM-DD> <HH:MM | HH:MM,HH:MM,… one per slug> <slug> [slug…]");
+  console.error("Usage: npm run kk:plan -- <YYYY-MM-DD>[:label] <HH:MM | HH:MM,HH:MM,… one per slug> <slug> [slug…]");
+  process.exit(1);
+}
+
+const planPath = `posting/kaya-kurrent/${name}.json`;
+if (existsSync(planPath) && JSON.parse(readFileSync(planPath, "utf8")).posts.some((p) => Object.keys(p.posted).length)) {
+  console.error(`${planPath} already has posted or scheduled items — use a new label instead of overwriting it.`);
   process.exit(1);
 }
 
@@ -66,70 +79,83 @@ const toJpeg = (png, jpg) => {
     jpg,
   ]);
 };
+const url = (file) => `${REPO_RAW}/${branch}/${dir}/${file}`;
+
+const importFirst = async (file) => Object.values(await import(pathToFileURL(file).href))[0];
+const OPPORTUNITIES = await importFirst("src/compositions/KayaKurrent/opportunities/index.ts");
+const OPPORTUNITY_CAPTIONS = await importFirst("src/compositions/KayaKurrent/opportunities/captions.ts");
+
+const newsPost = async (slug) => {
+  const story = await importFirst(`src/compositions/KayaKurrent/stories/${slug}.ts`);
+  const flag = FLAGS[slug] ?? "🇲🇼";
+  const lede = plain(story.lede);
+  toJpeg(`out/kaya-kurrent/${slug}-cover-post.png`, `${dir}/${slug}-cover.jpg`);
+  toJpeg(`out/kaya-kurrent/${slug}-post.png`, `${dir}/${slug}-card.jpg`);
+  return {
+    kind: "news",
+    title: story.headline,
+    // Facebook: the cover only, full story in the caption. Elsewhere: cover + news card, lede as the caption.
+    images: { cover: url(`${slug}-cover.jpg`), card: url(`${slug}-card.jpg`) },
+    captions: {
+      facebook: [`${flag} ${lede}`, ...story.body.map(plain), HASHTAGS].join("\n\n"),
+      instagram: `${flag} ${lede}\n\n${SWIPE}\n\n${HASHTAGS}`,
+      threads: `${flag} ${lede}\n\n${SWIPE}\n\n${HASHTAGS}`,
+      x: `${flag} ${lede}\n\n${HASHTAGS}`,
+    },
+  };
+};
+
+const opportunityPost = (slug) => {
+  const entry = OPPORTUNITIES.find((o) => o.slug === slug);
+  const info = OPPORTUNITY_CAPTIONS[slug];
+  if (!entry || !info) throw new Error(`${slug}: missing from opportunities/index.ts or opportunities/captions.ts`);
+  if (info.hold) throw new Error(`${slug} is on hold: ${info.hold}`);
+  toJpeg(`out/kaya-kurrent/${slug}-post.png`, `${dir}/${slug}.jpg`);
+  // Links only where they're clickable (Facebook, Threads); Instagram and X keep the report's wording.
+  const withLink = info.caption.replace(/ Full details and link on our page\./, "").replace(/\n(#\w+)$/, `\nApply: ${info.link}\n$1`);
+  return {
+    kind: "opportunity",
+    title: entry.title.replace(/\n/g, " "),
+    images: { cover: url(`${slug}.jpg`) },
+    captions: { facebook: withLink, instagram: info.caption, threads: withLink, x: info.caption },
+  };
+};
 
 const toMinutes = (t) => Number(t.slice(0, 2)) * 60 + Number(t.slice(3));
 const posts = [];
 for (const [i, slug] of slugs.entries()) {
-  const file = `src/compositions/KayaKurrent/stories/${slug}.ts`;
-  const story = Object.values(await import(pathToFileURL(file).href))[0];
-  const flag = FLAGS[slug] ?? "🇲🇼";
-  const lede = plain(story.lede);
-  const short = `${flag} ${lede}\n\n${HASHTAGS}`;
-  const carousel = `${flag} ${lede}\n\n${SWIPE}\n\n${HASHTAGS}`;
-  const full = [`${flag} ${lede}`, ...story.body.map(plain), HASHTAGS].join("\n\n");
-
   const minutes = times.length > 1 ? toMinutes(times[i]) : toMinutes(times[0]) + i * SPACING_MIN;
   const time = `${date}T${String(Math.floor(minutes / 60)).padStart(2, "0")}:${String(minutes % 60).padStart(2, "0")}:00${TZ_OFFSET}`;
-
-  for (const [png, jpg] of [
-    [`out/kaya-kurrent/${slug}-cover-post.png`, `${dir}/${slug}-cover.jpg`],
-    [`out/kaya-kurrent/${slug}-post.png`, `${dir}/${slug}-card.jpg`],
-  ]) {
-    toJpeg(png, jpg);
-  }
-  const url = (name) => `${REPO_RAW}/${branch}/${dir}/${name}`;
-  posts.push({
-    slug,
-    headline: story.headline,
-    time,
-    // Facebook: the cover only, full story in the caption. Elsewhere: cover + news card, lede as the caption.
-    // News stories carry no links (the user's rule; Opportunities and Notices do, on Facebook and Threads only).
-    images: { cover: url(`${slug}-cover.jpg`), card: url(`${slug}-card.jpg`) },
-    captions: { facebook: full, instagram: carousel, threads: carousel, x: short },
-    posted: {},
-  });
-  if (xLength(short) > 280) console.warn(`⚠ ${slug}: X caption is ${xLength(short)} characters (limit 280)`);
-  if (carousel.length > 500) console.warn(`⚠ ${slug}: Threads caption is over 500 characters`);
+  const post = slug.startsWith("opp-") ? opportunityPost(slug) : await newsPost(slug);
+  posts.push({ slug, time, ...post, posted: {} });
+  if (xLength(post.captions.x) > 280) console.warn(`⚠ ${slug}: X caption is ${xLength(post.captions.x)} characters (limit 280)`);
+  if (post.captions.threads.length > 500) console.warn(`⚠ ${slug}: Threads caption is over 500 characters`);
 }
 
-writeFileSync(`posting/kaya-kurrent/${date}.json`, JSON.stringify({ date, approved: false, posts }, null, 2) + "\n");
+writeFileSync(planPath, JSON.stringify({ date, approved: false, posts }, null, 2) + "\n");
 
 // Review sheet for the user.
 const clock = (iso) => iso.slice(11, 16);
+const quote = (s) => s.split("\n").map((l) => `> ${l}`);
 const md = [
-  `# Kaya Kurrent posts — ${date}`,
+  `# Kaya Kurrent posts — ${name}`,
   "",
-  "Times are Malawi time. Facebook: the cover + the full story as the caption, scheduled in Meta Business Suite.",
-  "Instagram, Threads and X: cover + news card, the first paragraph as the caption, posted at the same time.",
+  "Times are Malawi time. Facebook posts are scheduled in Meta Business Suite; Instagram, Threads and X go out at the",
+  "same time after you approve. News: Facebook gets the cover + full story, the others the cover + news card.",
+  "Opportunities: the card everywhere, with the link on Facebook and Threads only.",
   "",
   ...posts.flatMap((p) => [
-    `## ${clock(p.time)} — ${p.headline}`,
+    `## ${clock(p.time)} — ${p.title}`,
     "",
-    "**Instagram / Threads**",
-    "",
-    ...p.captions.instagram.split("\n").map((l) => `> ${l}`),
-    "",
-    `**X** (${xLength(p.captions.x)} of 280 characters)`,
-    "",
-    ...p.captions.x.split("\n").map((l) => `> ${l}`),
-    "",
-    "**Facebook**",
-    "",
-    ...p.captions.facebook.split("\n").map((l) => `> ${l}`),
-    "",
+    ...(p.captions.instagram === p.captions.x
+      ? [`**Instagram / X** (${xLength(p.captions.x)} of 280 characters on X)`, "", ...quote(p.captions.instagram), ""]
+      : ["**Instagram / Threads**", "", ...quote(p.captions.instagram), "", `**X** (${xLength(p.captions.x)} of 280)`, "", ...quote(p.captions.x), ""]),
+    ...(p.captions.threads === p.captions.facebook
+      ? ["**Facebook / Threads**", "", ...quote(p.captions.facebook), ""]
+      : ["**Facebook**", "", ...quote(p.captions.facebook), ""]),
   ]),
 ].join("\n");
-writeFileSync(`posting/kaya-kurrent/${date}.md`, md);
+writeFileSync(`posting/kaya-kurrent/${name}.md`, md);
 
 for (const p of posts) console.log(`${clock(p.time)}  ${p.slug}  (X ${xLength(p.captions.x)}/280)`);
-console.log(`\nWrote posting/kaya-kurrent/${date}.json, ${date}.md and ${posts.length * 2} JPEGs in ${dir}/`);
+console.log(`\nWrote ${planPath}, ${name}.md and the JPEGs in ${dir}/`);

@@ -70,13 +70,14 @@ export const OPPORTUNITIES: OpportunityEntry[] = [
     photo: "kaya-kurrent/photos/lady-justice.jpg",
     photoPosition: "50% 60%",
   },
-  // Crawl report 16-22 October 2026, #4. The report's source link is a Google search, not the official page.
+  // Crawl report 16-22 October 2026, #4. The report's link was a Google search; official page in captions.ts.
+  // The official terms limit entry to amateur photographers (the report said "Photographers worldwide").
   {
     slug: "opp-royal-entomological-photo",
     title: "Royal Entomological Society\nPhotography Competition",
     storyTitle: "Royal Entomological\nSociety Photography\nCompetition",
     rows: [
-      "**Who it's for:**  Photographers worldwide",
+      "**Who it's for:**  Amateur photographers worldwide",
       "**What you get:**  **Cash prizes** plus publication across the Society's platforms.",
       "**Deadline:**  Closes 31 October 2026.",
     ],
