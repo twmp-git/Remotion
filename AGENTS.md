@@ -200,8 +200,27 @@ The artist's verse on "Mawa" (song 1:20 → 2:10.5), vertical 1080×1920, two ve
 
 ## Project: Kaya Kurrent news cards
 
-The artist's news brand. Each story becomes two PNG stills: a square feed post (1500×1500) and a vertical
-story/status (1080×1920). The user pastes a story (or uploads a .docx) and expects both images back.
+The artist's news brand. The user pastes content (or uploads a .docx) and expects finished PNGs back.
+
+### Template registry (approved by the user — don't change their look without being asked)
+
+| Template name | Size | Component | Composition id | Used for |
+|---|---|---|---|---|
+| **News Post** | 1500×1500 square | `NewsPost.tsx` | `KK-<slug>-Post` | Feed post of a news story |
+| **News Story** | 1080×1920 vertical | `NewsStory.tsx` | `KK-<slug>-Story` | Story / WhatsApp status of the same story |
+
+Every news story gets both templates. When the user says "the news templates", "the square one" or
+"the vertical one", they mean these. Approved details: capital headlines (≤ 8 words), text grows to fill the
+frame, 80 px / 64 px side margins, d Diam + DM Sans, footer "News now, for then." + @kayakurrent.
+
+**Adding a new template** (the user plans more, e.g. for other kinds of posts): give it a name, add a row to the
+table above, build it in `src/compositions/KayaKurrent/` reusing `brand.ts` (fonts, colours, handle, tagline),
+`FitBox`, `RichText` and the logo (`public/kaya-kurrent/logo-k.png`), register it in the `KayaKurrent` folder in
+`Root.tsx` with an id starting `KK-`, and make sure `npm run kk` renders it (extend `scripts/render-kaya-kurrent.mjs`
+if the id pattern differs). If the user supplies a template image, measure it and check the render side by side
+against it, as was done for News Post with the IMF reference post.
+
+### News templates
 
 - `src/compositions/KayaKurrent/stories/<slug>.ts` — one file per story (`headline`, `byline`, `lede`, `body[]`,
   optional `photo`); register it at the top of `stories/index.ts`. `imf-ecf-deal.ts` is the user's published

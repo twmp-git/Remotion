@@ -5,7 +5,7 @@ import { HANDLE, kkColors, kkFonts } from "./brand";
 import { FitBox } from "./FitBox";
 import type { KKStory } from "./schema";
 
-/** Vertical story / status, 1080×1920 — the black-and-white frame template. */
+/** Template "News Story": vertical story / status, 1080×1920 — the black-and-white frame template. */
 export const STORY_SIZE = { width: 1080, height: 1920 } as const;
 
 /**

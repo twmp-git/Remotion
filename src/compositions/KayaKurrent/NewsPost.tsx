@@ -5,7 +5,7 @@ import { DM_SANS_OPSZ, HANDLE, kkColors, kkFonts, TAGLINE } from "./brand";
 import { FitBox } from "./FitBox";
 import type { KKStory } from "./schema";
 
-/** Square feed post, 1500×1500 — matches the "IMF, Malawi Near Economic Support Deal" template. */
+/** Template "News Post": square feed post, 1500×1500 — matches the "IMF, Malawi Near Economic Support Deal" template. */
 export const POST_SIZE = { width: 1500, height: 1500 } as const;
 
 // Frame outline (stroke centre-lines, px), measured from the template.
