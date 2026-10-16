@@ -11,6 +11,8 @@
  * News stories (stories/<slug>.ts): Facebook gets the cover + the full story; Instagram/Threads a carousel (cover +
  * news card) with the lede; X the lede. No links. Opportunities (slugs starting "opp-"): the square card on every
  * platform with the crawl report's caption from opportunities/captions.ts; the link only on Facebook and Threads.
+ * Public Notices (slugs starting "notice-"): the square card everywhere, caption from notices/captions.ts, with
+ * "Full notice: <link>" on Facebook and Threads only.
  *
  * The user likes "patterned" times (07:37, 08:28, 10:10, 2:22; 11:11 for Opportunities) about 45 minutes apart,
  * not a rigid grid — pick the times and pass them as a list.
@@ -28,6 +30,7 @@ const TZ_OFFSET = "+02:00"; // Malawi (CAT), no daylight saving
 const REPO_RAW = "https://raw.githubusercontent.com/twmp-git/Remotion";
 const HASHTAGS = "#KayaKurrent #NewsNowForThen";
 const OPP_HASHTAGS = "#KayaKurrent #Opportunities"; // the user's: no "OPPORTUNITY OF THE DAY" line, these tags
+const NOTICE_HASHTAGS = "#KayaKurrent #PublicNotice";
 // Country flag that opens each caption. Malawi unless listed here.
 const FLAGS = {
   "pope-leo-surgery": "🇻🇦",
@@ -85,6 +88,8 @@ const url = (file) => `${REPO_RAW}/${branch}/${dir}/${file}`;
 const importFirst = async (file) => Object.values(await import(pathToFileURL(file).href))[0];
 const OPPORTUNITIES = await importFirst("src/compositions/KayaKurrent/opportunities/index.ts");
 const OPPORTUNITY_CAPTIONS = await importFirst("src/compositions/KayaKurrent/opportunities/captions.ts");
+const NOTICES = await importFirst("src/compositions/KayaKurrent/notices/index.ts");
+const NOTICE_CAPTIONS = await importFirst("src/compositions/KayaKurrent/notices/captions.ts");
 
 const newsPost = async (slug) => {
   const story = await importFirst(`src/compositions/KayaKurrent/stories/${slug}.ts`);
@@ -125,12 +130,32 @@ const opportunityPost = (slug) => {
   };
 };
 
+const noticePost = (slug) => {
+  const entry = NOTICES.find((n) => n.slug === slug);
+  const info = NOTICE_CAPTIONS[slug];
+  if (!entry || !info) throw new Error(`${slug}: missing from notices/index.ts or notices/captions.ts`);
+  toJpeg(`out/kaya-kurrent/${slug}-post.png`, `${dir}/${slug}.jpg`);
+  // The card on every platform; "Full notice: <link>" only where links are clickable (Facebook, Threads).
+  const withLink = `${info.caption} Full notice: ${info.link}\n\n${NOTICE_HASHTAGS}`;
+  const noLink = `${info.caption}\n\n${NOTICE_HASHTAGS}`;
+  return {
+    kind: "notice",
+    title: entry.title.replace(/\n/g, " "),
+    images: { cover: url(`${slug}.jpg`) },
+    captions: { facebook: withLink, instagram: noLink, threads: withLink, x: noLink },
+  };
+};
+
 const toMinutes = (t) => Number(t.slice(0, 2)) * 60 + Number(t.slice(3));
 const posts = [];
 for (const [i, slug] of slugs.entries()) {
   const minutes = times.length > 1 ? toMinutes(times[i]) : toMinutes(times[0]) + i * SPACING_MIN;
   const time = `${date}T${String(Math.floor(minutes / 60)).padStart(2, "0")}:${String(minutes % 60).padStart(2, "0")}:00${TZ_OFFSET}`;
-  const post = slug.startsWith("opp-") ? opportunityPost(slug) : await newsPost(slug);
+  const post = slug.startsWith("opp-")
+    ? opportunityPost(slug)
+    : slug.startsWith("notice-")
+      ? noticePost(slug)
+      : await newsPost(slug);
   posts.push({ slug, time, ...post, posted: {} });
   if (xLength(post.captions.x) > 280) console.warn(`⚠ ${slug}: X caption is ${xLength(post.captions.x)} characters (limit 280)`);
   if (post.captions.threads.length > 500) console.warn(`⚠ ${slug}: Threads caption is over 500 characters`);

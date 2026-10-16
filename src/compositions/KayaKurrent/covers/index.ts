@@ -8,15 +8,15 @@ import type { CoverEntry } from "../Cover";
 export const COVERS: CoverEntry[] = [
   // Notices and Stories sweep, 16 October 2026 — Pexels photos (pexels.com/photo/<id>).
   {
-    // Pexels 4769129 (operating theatre: theatre lights, anaesthesia and monitoring equipment);
-    // vertical: Pexels 8089556 (theatre lights over a surgical team).
+    // Equipment only, no people (the user's rule): Pexels 4416539 (an anaesthesia machine);
+    // vertical: Pexels 7108390 (an ultrasound machine).
     slug: "mzuzu-hospital-equipment",
     headline: "Mzuzu Central Hospital\nPlans to Buy Medical Equipment",
     storyHeadline: "Mzuzu Central Hospital\nPlans to Buy\nMedical Equipment",
-    photo: "kaya-kurrent/photos/mzuzu-theatre.jpg",
-    photoPosition: "50% 30%",
-    storyPhoto: "kaya-kurrent/photos/mzuzu-theatre-portrait.jpg",
-    storyPhotoPosition: "50% 20%",
+    photo: "kaya-kurrent/photos/mzuzu-anaesthesia-machine.jpg",
+    photoPosition: "60% 35%",
+    storyPhoto: "kaya-kurrent/photos/mzuzu-ultrasound.jpg",
+    storyPhotoPosition: "50% 40%",
   },
   {
     // Pexels 3958186 (toilet rolls) — no free photo of a toilet paper production line was found.
@@ -36,13 +36,14 @@ export const COVERS: CoverEntry[] = [
     storyPhotoPosition: "45% 50%",
   },
   {
-    // Pexels 2892618 (open-pit mine) — no free photo of rare earth minerals was found.
+    // Pexels 10545702 (raw mineral crystals). The user wants minerals or equipment, not a mine landscape
+    // (Malawi's mines don't look like big open pits); no free photo of rare earth minerals specifically was found.
     slug: "balaka-rare-earth-mine",
     headline: "Balaka Rare Earth Mine\nAims for First Output",
     storyHeadline: "Balaka Rare Earth\nMine Aims for\nFirst Output",
-    photo: "kaya-kurrent/photos/open-pit-mine.jpg",
+    photo: "kaya-kurrent/photos/raw-minerals.jpg",
     photoPosition: "50% 50%",
-    storyPhotoPosition: "50% 50%",
+    storyPhotoPosition: "45% 50%",
   },
   // 16 October 2026 — Pexels photos (pexels.com/photo/<id>).
   {
