@@ -190,3 +190,40 @@ rgba = np.zeros(alpha.shape + (4,), np.uint8)
 rgba[..., 3] = (alpha * 255).astype(np.uint8)
 Image.fromarray(rgba, "RGBA").save(OUT / "wordmark.png", optimize=True)
 print("wrote", OUT / "wordmark.png", rgba.shape[1], "x", rgba.shape[0])
+
+
+# --- Logos supplied by the user (transparent 2000×2000 webp) ---------------------------------
+def logo_alpha(src):
+    a = np.array(Image.open(SRC / src).convert("RGBA")).astype(np.float64)
+    ink = a[..., 3] / 255 * np.clip((250 - a[..., :3].mean(axis=2)) / 245, 0, 1)
+    ys, xs = np.where(ink > 0.05)
+    m = 8
+    return ink[ys.min() - m : ys.max() + m + 1, xs.min() - m : xs.max() + m + 1]
+
+
+def save_alpha(alpha, name):
+    rgba = np.zeros(alpha.shape + (4,), np.uint8)
+    rgba[..., 3] = (np.clip(alpha, 0, 1) * 255).round().astype(np.uint8)
+    Image.fromarray(rgba, "RGBA").save(OUT / name, optimize=True)
+    print("wrote", OUT / name, rgba.shape[1], "x", rgba.shape[0])
+
+
+for src, name in [
+    ("logo-k-lowercase.webp", "logo-k-lowercase.png"),
+    ("logo-K-uppercase.webp", "logo-K-uppercase.png"),
+    ("logo-wordmark-stacked.webp", "logo-wordmark-stacked.png"),
+]:
+    save_alpha(logo_alpha(src), name)
+
+# "k." as used on the templates: the lowercase k plus the dot (position/size measured from
+# the templates, scale 2.707 relative to the 180 px glyph cut from the vertical News template).
+from PIL import ImageDraw  # noqa: E402
+
+k = logo_alpha("logo-k-lowercase.webp")
+S4 = 4
+dcx, dcy, r = 9 + (136.5 - 6) * 2.707, 8 + (174 - 6) * 2.707, 11.3 * 2.707
+W = int(np.ceil(dcx + r + 10))
+big = Image.new("L", (W * S4, k.shape[0] * S4), 0)
+big.paste(Image.fromarray((k * 255).astype(np.uint8)).resize((k.shape[1] * S4, k.shape[0] * S4), Image.LANCZOS), (0, 0))
+ImageDraw.Draw(big).ellipse([(dcx - r) * S4, (dcy - r) * S4, (dcx + r) * S4, (dcy + r) * S4], fill=255)
+save_alpha(np.array(big.resize((W, k.shape[0]), Image.LANCZOS)).astype(np.float64) / 255, "logo-k.png")

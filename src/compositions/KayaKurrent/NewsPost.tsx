@@ -3,6 +3,7 @@ import { AbsoluteFill, Img, staticFile } from "remotion";
 import { ArticleText, headlineContentStyle } from "./ArticleText";
 import { DM_SANS_OPSZ, HANDLE, kkColors, kkFonts, TAGLINE } from "./brand";
 import { FitBox } from "./FitBox";
+import { Logo } from "./parts";
 import type { KKStory } from "./schema";
 
 /** Template "News Post": square feed post, 1500×1500 — matches the "IMF, Malawi Near Economic Support Deal" template. */
@@ -40,10 +41,7 @@ export const NewsPost: React.FC<KKStory> = (story) => {
         />
       </svg>
 
-      <Img
-        src={staticFile("kaya-kurrent/logo-k.png")}
-        style={{ position: "absolute", left: 74, top: 89, width: 154, height: 192 }}
-      />
+      <Logo x={80} y={95} height={180} />
 
       <FitBox
         style={{

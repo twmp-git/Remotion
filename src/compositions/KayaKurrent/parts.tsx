@@ -5,7 +5,10 @@ import { DM_SANS_OPSZ, kkFonts } from "./brand";
 /** The brand red sampled from the templates. */
 export const KK_RED = "#BE292D";
 
-/** The "k." logo glyph is 142×180 px inside logo-k.png (154×192, 6 px margin). */
+/**
+ * The "k." logo: the user's lowercase k (logo-k-lowercase.png) plus the dot, 403×501 px,
+ * with the glyph occupying x 9–392, y 8–492 (384×485).
+ */
 export const Logo: React.FC<{
   /** Top-left of the glyph itself. */
   x: number;
@@ -14,16 +17,16 @@ export const Logo: React.FC<{
   height: number;
   color?: "black" | "white";
 }> = ({ x, y, height, color = "black" }) => {
-  const s = height / 180;
+  const s = height / 485;
   return (
     <Img
       src={staticFile("kaya-kurrent/logo-k.png")}
       style={{
         position: "absolute",
-        left: x - 6 * s,
-        top: y - 6 * s,
-        width: 154 * s,
-        height: 192 * s,
+        left: x - 9 * s,
+        top: y - 8 * s,
+        width: 403 * s,
+        height: 501 * s,
         filter: color === "white" ? "invert(1)" : undefined,
       }}
     />
