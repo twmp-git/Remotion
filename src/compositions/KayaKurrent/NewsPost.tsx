@@ -1,7 +1,7 @@
 import React from "react";
 import { AbsoluteFill, Img, staticFile } from "remotion";
 import { ArticleText, headlineContentStyle } from "./ArticleText";
-import { HANDLE, kkColors, kkFonts, TAGLINE } from "./brand";
+import { DM_SANS_OPSZ, HANDLE, kkColors, kkFonts, TAGLINE } from "./brand";
 import { FitBox } from "./FitBox";
 import type { KKStory } from "./schema";
 
@@ -48,7 +48,7 @@ export const NewsPost: React.FC<KKStory> = (story) => {
       <FitBox
         style={{
           left: 346,
-          top: 96,
+          top: 98,
           width: 1020,
           height: 194,
           display: "flex",
@@ -56,8 +56,8 @@ export const NewsPost: React.FC<KKStory> = (story) => {
           justifyContent: "flex-end",
         }}
         contentStyle={headlineContentStyle}
-        max={82.5}
-        min={54}
+        max={74.3}
+        min={48}
         fitKey={story.headline}
       >
         {story.headline}
@@ -81,6 +81,7 @@ export const NewsPost: React.FC<KKStory> = (story) => {
           display: "flex",
           justifyContent: "space-between",
           fontFamily: kkFonts.body,
+          fontVariationSettings: DM_SANS_OPSZ,
           fontWeight: 400,
           fontSize: 34.6,
           lineHeight: 1,

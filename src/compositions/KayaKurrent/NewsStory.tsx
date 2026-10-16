@@ -32,8 +32,8 @@ export const NewsStory: React.FC<KKStory> = (story) => {
           justifyContent: "center",
         }}
         contentStyle={headlineContentStyle}
-        max={80}
-        min={46}
+        max={72}
+        min={42}
         fitKey={story.headline}
       >
         {story.headline}

@@ -210,7 +210,8 @@ story/status (1080×1920). The user pastes a story (or uploads a .docx) and expe
   → `out/kaya-kurrent/<slug>-post.png` and `<slug>-story.png`. Look at both, then send them to the user.
 - `NewsPost.tsx` (square: frame, logo, footer drawn in code; optional faded photo behind) and `NewsStory.tsx`
   (vertical: `public/kaya-kurrent/story-template.png` is the user's template, cleaned, with the handle removed and
-  redrawn from `HANDLE` in `brand.ts`). Fonts: Rajdhani Bold (headline, + thin stroke), DM Sans Light/Bold (text).
+  redrawn from `HANDLE` in `brand.ts`). Fonts are the user's own files: d Diam (headline, 74.3 px; ASCII only, Rajdhani
+  fills in accented letters) and DM Sans variable (Light body / Bold lede, pinned to `opsz 14`).
 - `FitBox` shrinks text from the template size (29.4 px body) to fit. If a story is still too long, a red
   "TEXT TOO LONG" bar is rendered — never send an image with that bar; trim the story instead.
 
@@ -220,6 +221,8 @@ story/status (1080×1920). The user pastes a story (or uploads a .docx) and expe
   word-for-word (or drop them whole). Merge an attribution sentence with its quote to save paragraph gaps.
 - Only light copy fixes (spacing before commas, "He added that, the" → "He added that the"). Mention any change
   of meaning or any doubtful fact to the user instead of silently fixing it.
+- Headlines: 8 words or fewer — shorten longer ones and tell the user. Use straight apostrophes (the headline font has no curly ones).
 - House style: headline in Title Case; byline "By Staff Reporter"; lede = first paragraph (rendered bold);
   `**bold**` people and organisations on first mention in the body. If no headline is given, write one and say so.
-- Record what was cut in a comment at the top of the story file.
+- Record what was cut (and the source link, if any) in a comment at the top of the story file.
+- When the source gives a link "for the post", it goes in the caption, not on the image: list the links in the reply.

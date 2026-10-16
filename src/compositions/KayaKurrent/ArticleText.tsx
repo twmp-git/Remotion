@@ -1,5 +1,5 @@
 import React from "react";
-import { kkColors, kkFonts } from "./brand";
+import { DM_SANS_OPSZ, kkColors, kkFonts } from "./brand";
 import { RichText } from "./RichText";
 import type { KKStory } from "./schema";
 
@@ -9,7 +9,13 @@ import type { KKStory } from "./schema";
  */
 export const ArticleText: React.FC<{ story: KKStory }> = ({ story }) => {
   return (
-    <div style={{ fontFamily: kkFonts.body, color: kkColors.ink }}>
+    <div
+      style={{
+        fontFamily: kkFonts.body,
+        fontVariationSettings: DM_SANS_OPSZ,
+        color: kkColors.ink,
+      }}
+    >
       <div style={{ fontWeight: 300, lineHeight: 1 }}>{story.byline}</div>
       <p style={{ margin: 0, fontWeight: 700, lineHeight: 1.09 }}>
         <RichText text={story.lede} />
@@ -21,7 +27,6 @@ export const ArticleText: React.FC<{ story: KKStory }> = ({ story }) => {
             margin: `${i === 0 ? 1.09 : 1.215}em 0 0`,
             fontWeight: 300,
             lineHeight: 1.27,
-            textWrap: "pretty",
           }}
         >
           <RichText text={paragraph} />
@@ -35,10 +40,8 @@ export const ArticleText: React.FC<{ story: KKStory }> = ({ story }) => {
 export const headlineContentStyle: React.CSSProperties = {
   width: "100%",
   fontFamily: kkFonts.headline,
-  fontWeight: 700,
-  lineHeight: 0.897,
+  fontWeight: 400,
+  lineHeight: 1,
   color: kkColors.ink,
-  // Rajdhani's bold is a touch lighter than the template's headline face; a thin stroke matches it.
-  WebkitTextStroke: `0.024em ${kkColors.ink}`,
   textWrap: "pretty",
 };
