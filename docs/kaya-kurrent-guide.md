@@ -49,7 +49,7 @@ Every template makes two images: a **square** (feed post) and a **vertical** (st
 | Facebook (Page "KayaKurrent") | Connected |
 | Instagram (@kayakurrent) | Connected |
 | Threads (@kayakurrent) | Connected |
-| X (@KayaKurrent) | Connected |
+| X (@KayaKurrent) | Connected, but posting needs paid X credits (the account has none), so X is posted by hand for now |
 
 In a new session, say "test all four connections" (nothing is posted).
 

@@ -298,7 +298,9 @@ that host (`graph.threads.net` answers "Invalid OAuth 2.0 Access Token"). X answ
 characters (the 50-character secret pasted twice) and the access token/secret were 91-character values without the
 `<digits>-` prefix of OAuth 1.0a access tokens (likely OAuth 2.0 tokens); they need the "Access Token and Secret".
 Verified 17 Oct 2026: X keys fixed — `GET /2/users/me` (OAuth 1.0a) returns @KayaKurrent, id `2096206115725852675`.
-The X console shows Credits/Usage: check whether posting costs credits after the first post.
+**X posting needs paid credits:** on 17 Oct `POST /2/tweets` answered 402 "credits depleted" (media upload worked).
+Don't post to X (no X reminders) until the user says they've added credits; the user posts on X by hand meanwhile
+(Beach Sharks: `posted.x` = "posted manually by the user").
 **Review before posting:** only Facebook can be scheduled through the API (`published=false` +
 `scheduled_publish_time`, at least 10 minutes ahead). Schedule a **Page post with the photo attached** (photo uploaded
 with `published=false&temporary=true`, then `/feed` with `attached_media`) — that shows in Business Suite (Content →
