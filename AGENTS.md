@@ -301,6 +301,10 @@ Verified 17 Oct 2026: X keys fixed — `GET /2/users/me` (OAuth 1.0a) returns @K
 **X posting needs paid credits:** on 17 Oct `POST /2/tweets` answered 402 "credits depleted" (media upload worked).
 Don't post to X (no X reminders) until the user says they've added credits; the user posts on X by hand meanwhile
 (Beach Sharks: `posted.x` = "posted manually by the user").
+**X pack (the user's manual X workflow):** `python3 scripts/kk-xpack.py [dates]` builds `out/kaya-kurrent/x-pack.html` —
+every planned post not yet on X, with time, X caption (copy button, X-weighted 280 count) and images — published as the
+artifact https://claude.ai/artifact/8otW6bhLmXMbRxVKaJmfqi (republish with the files map in `out/kaya-kurrent/x-pack-files.json`).
+The user schedules them with x.com's free scheduler. Keep X captions ≤ 280 (the Mzuzu notice was trimmed for X).
 **Review before posting:** only Facebook can be scheduled through the API (`published=false` +
 `scheduled_publish_time`, at least 10 minutes ahead). Schedule a **Page post with the photo attached** (photo uploaded
 with `published=false&temporary=true`, then `/feed` with `attached_media`) — that shows in Business Suite (Content →
