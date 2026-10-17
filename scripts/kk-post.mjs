@@ -91,7 +91,10 @@ const publishInstagram = async (post) => {
   } else {
     const children = [];
     for (const image_url of images) {
-      children.push((await call("POST", `${FB}/${IG_ID}/media`, { image_url, is_carousel_item: "true" })).id);
+      const child = (await call("POST", `${FB}/${IG_ID}/media`, { image_url, is_carousel_item: "true" })).id;
+      // Each slide must finish processing before the carousel is made from it.
+      await waitFor(async () => (await call("GET", `${FB}/${child}`, { fields: "status_code" })).status_code, "Instagram slide");
+      children.push(child);
     }
     ({ id } = await call("POST", `${FB}/${IG_ID}/media`, {
       media_type: "CAROUSEL",
@@ -117,7 +120,10 @@ const publishThreads = async (post) => {
   } else {
     const children = [];
     for (const image_url of images) {
-      children.push((await call("POST", `${THREADS}/me/threads`, { media_type: "IMAGE", image_url, is_carousel_item: "true" })).id);
+      const child = (await call("POST", `${THREADS}/me/threads`, { media_type: "IMAGE", image_url, is_carousel_item: "true" })).id;
+      // Threads rejects a carousel whose items haven't finished processing ("Invalid Carousel Children").
+      await waitFor(async () => (await call("GET", `${THREADS}/${child}`, { fields: "status" })).status, "Threads slide");
+      children.push(child);
     }
     ({ id } = await call("POST", `${THREADS}/me/threads`, {
       media_type: "CAROUSEL",
