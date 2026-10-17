@@ -10,9 +10,9 @@
  *
  * News stories (stories/<slug>.ts): Facebook gets the cover + the full story; Instagram/Threads a carousel (cover +
  * news card) with the lede; X the lede. No links. Opportunities (slugs starting "opp-"): the square card on every
- * platform with the crawl report's caption from opportunities/captions.ts; the link only on Facebook and Threads.
+ * platform with the crawl report's caption from opportunities/captions.ts; the link on Facebook, Threads and X.
  * Public Notices (slugs starting "notice-"): the square card everywhere, caption from notices/captions.ts, with
- * "Full notice: <link>" on Facebook and Threads only.
+ * "Full notice: <link>" on Facebook, Threads and X.
  *
  * The user likes "patterned" times (07:37, 08:28, 10:10, 2:22; 11:11 for Opportunities) about 45 minutes apart,
  * not a rigid grid — pick the times and pass them as a list.
@@ -118,7 +118,7 @@ const opportunityPost = (slug) => {
   if (info.hold) throw new Error(`${slug} is on hold: ${info.hold}`);
   toJpeg(`out/kaya-kurrent/${slug}-post.png`, `${dir}/${slug}.jpg`);
   // The report's caption without its "OPPORTUNITY OF THE DAY" line and #OpportunitiesDesk tag. Links only where
-  // they're clickable (Facebook, Threads); Instagram and X keep "Full details and link on our page."
+  // they're clickable (Facebook, Threads, X — the user wants the link on X too); Instagram keeps "Full details and link on our page."
   const base = info.caption.replace(/^OPPORTUNITY OF THE DAY\n/, "").replace(/\n#OpportunitiesDesk$/, "");
   const noLink = `${base}\n${OPP_HASHTAGS}`;
   const withLink = `${base.replace(/ Full details and link on our page\./, "")}\nApply: ${info.link}\n${OPP_HASHTAGS}`;
@@ -126,7 +126,7 @@ const opportunityPost = (slug) => {
     kind: "opportunity",
     title: entry.title.replace(/\n/g, " "),
     images: { cover: url(`${slug}.jpg`) },
-    captions: { facebook: withLink, instagram: noLink, threads: withLink, x: noLink },
+    captions: { facebook: withLink, instagram: noLink, threads: withLink, x: withLink },
   };
 };
 
@@ -135,14 +135,14 @@ const noticePost = (slug) => {
   const info = NOTICE_CAPTIONS[slug];
   if (!entry || !info) throw new Error(`${slug}: missing from notices/index.ts or notices/captions.ts`);
   toJpeg(`out/kaya-kurrent/${slug}-post.png`, `${dir}/${slug}.jpg`);
-  // The card on every platform; "Full notice: <link>" only where links are clickable (Facebook, Threads).
+  // The card on every platform; "Full notice: <link>" where links are clickable (Facebook, Threads, X). Trim long X captions by hand.
   const withLink = `${info.caption} Full notice: ${info.link}\n\n${NOTICE_HASHTAGS}`;
   const noLink = `${info.caption}\n\n${NOTICE_HASHTAGS}`;
   return {
     kind: "notice",
     title: entry.title.replace(/\n/g, " "),
     images: { cover: url(`${slug}.jpg`) },
-    captions: { facebook: withLink, instagram: noLink, threads: withLink, x: noLink },
+    captions: { facebook: withLink, instagram: noLink, threads: withLink, x: withLink },
   };
 };
 
@@ -171,7 +171,7 @@ const md = [
   "",
   "Times are Malawi time. Facebook posts are scheduled in Meta Business Suite; Instagram, Threads and X go out at the",
   "same time after you approve. News: Facebook gets the cover + full story, the others the cover + news card.",
-  "Opportunities: the card everywhere, with the link on Facebook and Threads only.",
+  "Opportunities: the card everywhere, with the link on Facebook, Threads and X.",
   "",
   ...posts.flatMap((p) => [
     `## ${clock(p.time)} — ${p.title}`,

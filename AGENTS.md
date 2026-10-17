@@ -320,7 +320,8 @@ captions must be approved in chat before publishing.
    `#KayaKurrent #NewsNowForThen`, with the cover + news card as a carousel; X = the same without the swipe line.
    Facebook = flag + lede + the whole body (bold markers removed) + hashtags, with the **cover only**.
    **Links:** never on News stories; Opportunities and Public Notices carry their link, but only where links are
-   clickable (Facebook and Threads — not Instagram; X is clickable too but shows link posts to fewer people, ask).
+   clickable (Facebook, Threads and **X** — the user asked for links on X on 17 Oct; not Instagram). Long notice
+   captions get a trimmed X version so the link fits in 280.
    Edit captions in the plan JSON if the user changes them.
    **Times:** about 45 minutes apart but on "patterned", human-looking times, not a rigid grid — e.g. 07:37, 08:28,
    09:09, 10:01, 10:10, 2:22; keep 11:11 for Opportunities. Pass them to `kk:plan` as a comma-separated list.
@@ -332,7 +333,7 @@ captions must be approved in chat before publishing.
    CAPTION as written; `hold` keeps one out). `kk:plan` drops the "OPPORTUNITY OF THE DAY" line and uses
    `#KayaKurrent #Opportunities` (the user's style), e.g. "Commonwealth Foundation Grant 2026-2027 - Up to GBP 15,000. /
    For: … / Deadline: 26 October 2026. / Apply: <link> / #KayaKurrent #Opportunities" on Facebook and Threads; Instagram
-   and X keep "Full details and link on our page." instead of the link. One card per post. At least **4 Opportunities a
+   keeps "Full details and link on our page." instead of the link (X gets the link too). One card per post. At least **4 Opportunities a
    day**, by deadline. Plans for the same day get a label: `kk:plan -- 2026-10-17:opportunities 11:11,12:12 …`.
    **Don't make new Opportunities posters until the user asks** (16 Oct 2026). Crawl report 16–22 Oct: 104 items,
    9 made (First Flights on hold — its 2026 round seems to have closed in April).
