@@ -297,6 +297,8 @@ Verified 16 Oct 2026 (later): Threads @kayakurrent id `39121008284211072` — us
 that host (`graph.threads.net` answers "Invalid OAuth 2.0 Access Token"). X answered 401: `X_API_SECRET` was 100
 characters (the 50-character secret pasted twice) and the access token/secret were 91-character values without the
 `<digits>-` prefix of OAuth 1.0a access tokens (likely OAuth 2.0 tokens); they need the "Access Token and Secret".
+Verified 17 Oct 2026: X keys fixed — `GET /2/users/me` (OAuth 1.0a) returns @KayaKurrent, id `2096206115725852675`.
+The X console shows Credits/Usage: check whether posting costs credits after the first post.
 **Review before posting:** only Facebook can be scheduled through the API (`published=false` +
 `scheduled_publish_time`, at least 10 minutes ahead). Schedule a **Page post with the photo attached** (photo uploaded
 with `published=false&temporary=true`, then `/feed` with `attached_media`) — that shows in Business Suite (Content →

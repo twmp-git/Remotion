@@ -49,7 +49,7 @@ Every template makes two images: a **square** (feed post) and a **vertical** (st
 | Facebook (Page "KayaKurrent") | Connected |
 | Instagram (@kayakurrent) | Connected |
 | Threads (@kayakurrent) | Connected |
-| X | Keys added but not accepted yet: `X_API_SECRET` was pasted twice, and `X_ACCESS_TOKEN` / `X_ACCESS_SECRET` need to be the **Access Token and Secret** (the token starts with your account number and a dash) |
+| X (@KayaKurrent) | Connected |
 
 In a new session, say "test all four connections" (nothing is posted).
 
